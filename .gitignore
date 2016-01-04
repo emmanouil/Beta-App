@@ -12,6 +12,3 @@
 
 #builts
 *.apk
-
-#IDE-specific
-.idea
