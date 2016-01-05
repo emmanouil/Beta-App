@@ -32,10 +32,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         CoordinatorLayout coord = (CoordinatorLayout) findViewById(R.id.coord);
-        if(checkCameraHardware(UtilsClass.getAppContext())){
-            Snackbar.make(coord, "Ça va", Snackbar.LENGTH_LONG)
+        if(UtilsClass.getLogToFile()){
+            Snackbar.make(coord, "We can log to file", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
-        }
+        }/*
+        if(checkCameraHardware(UtilsClass.getAppContext())){
+            Snackbar.make(coord, "We have Context", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show();
+        }*/
 
     }
 
