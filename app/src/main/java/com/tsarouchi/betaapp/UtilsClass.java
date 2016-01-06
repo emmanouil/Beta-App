@@ -67,7 +67,7 @@ public class UtilsClass extends Application {
     private boolean createLogFile(){
       //  sdCardDir = new File(ContextCompat.getExternalCacheDirs(context)[0].getAbsolutePath()+"/BetAppOut");
       //  sdCardDir = getFilesDir();
-        sdCardDir = new File(ContextCompat.getExternalFilesDirs(context, null)[0].getAbsolutePath()+"/BetAppOut");
+        sdCardDir = new File(ContextCompat.getExternalFilesDirs(context, null)[0].getAbsolutePath());
         if(!sdCardDir.exists()){
             logToFile = sdCardDir.mkdirs();
         }
