@@ -3,6 +3,8 @@ package com.tsarouchi.betaapp;
 import android.app.Application;
 import android.content.Context;
 import android.os.Environment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,9 +14,12 @@ import java.io.IOException;
  */
 public class UtilsClass extends Application {
 
+    private static final String TAG = "BetaAppLOG";
     private static Context context;
     private static boolean logToFile = true;
     private static File logFile;
+    private static File sdCardDir;
+    private static File mediaDir;
 
     /*
      * Initialize
@@ -25,6 +30,8 @@ public class UtilsClass extends Application {
         UtilsClass.logToFile = isExternalStorageWritable();
         if(UtilsClass.logToFile){
             UtilsClass.logToFile = createLogFile();
+        }else{
+            Log.i(TAG, "User-disabled log-to-file; using Android Log for logging");
         }
     }
 
@@ -51,8 +58,15 @@ public class UtilsClass extends Application {
     /*
      * create file in ext for logging
      */
+    //TODO checkthis
     private boolean createLogFile(){
-        UtilsClass.logFile = new File("sdcard/betaApp.log");
+      //  sdCardDir = new File(ContextCompat.getExternalCacheDirs(context)[0].getAbsolutePath()+"/BetAppOut");
+      //  sdCardDir = getFilesDir();
+        sdCardDir = new File(ContextCompat.getExternalFilesDirs(context, null)[0].getAbsolutePath()+"/BetAppOut");
+        if(!sdCardDir.exists()){
+            logToFile = sdCardDir.mkdirs();
+        }
+        UtilsClass.logFile = new File(sdCardDir+"/betaApp.log");
         if (!UtilsClass.logFile.exists())
         {
             try
@@ -62,11 +76,14 @@ public class UtilsClass extends Application {
             catch (IOException e)
             {
                 // TODO Auto-generated catch block
-                e.printStackTrace();
+                Log.e(TAG, "exception was thrown", e);
             }
         }
         if(!UtilsClass.logFile.exists()){
+            Log.e(TAG, "File Not Created - using Android Log for logging");
             return false;
+        }else{
+            Log.i(TAG, "File "+fileList()[0]+" is used for logging");
         }
         return true;
 
