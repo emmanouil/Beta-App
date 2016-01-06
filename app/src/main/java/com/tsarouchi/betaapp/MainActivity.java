@@ -1,10 +1,8 @@
 package com.tsarouchi.betaapp;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.content.pm.PackageManager;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             Snackbar.make(coord, "We have Context", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }*/
-        if(UtilsClass.getLogToFile())
+        if (UtilsClass.getLogToFile())
             UtilsClass.logINFO("Logging to file: " + UtilsClass.getLogFile());
 
     }
@@ -64,9 +62,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /** Check if this device has a camera */
+    /**
+     * Check if this device has a camera
+     */
     private boolean checkCameraHardware(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
             // this device has a camera
             return true;
         } else {
@@ -74,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
-
 
 
 }
