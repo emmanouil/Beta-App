@@ -88,6 +88,12 @@ public class MainActivity extends AppCompatActivity {
             UtilsClass.logERROR("Couldn't open camera: "+e);
         }
 
+        if(BuildConfig.DEBUG) {
+            Camera.Parameters params = camera.getParameters();
+            Camera.CameraInfo infoz = new Camera.CameraInfo();
+            Camera.getCameraInfo(0, infoz);
+        }
+
 
     }
 
