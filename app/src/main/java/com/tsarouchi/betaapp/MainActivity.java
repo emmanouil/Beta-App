@@ -1,6 +1,7 @@
 package com.tsarouchi.betaapp;
 
 import android.content.Context;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.content.pm.PackageManager;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Camera camera;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         if (UtilsClass.getLogToFile())
             UtilsClass.logINFO("Logging to file: " + UtilsClass.getLogFile());
 
+        initCamera();
     }
 
     @Override
@@ -64,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Check if this device has a camera
+     * It should, since we declare it on manifest, but just to be on the safe side
      */
     private boolean checkCameraHardware(Context context) {
         if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
@@ -73,6 +78,17 @@ public class MainActivity extends AppCompatActivity {
             // no camera on this device
             return false;
         }
+    }
+
+    private void initCamera(){
+        try{
+            //this is for the back-facing camera
+            camera = Camera.open();
+        }catch (Exception e){
+            UtilsClass.logERROR("Couldn't open camera: "+e);
+        }
+
+
     }
 
 
