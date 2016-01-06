@@ -35,14 +35,19 @@ public class UtilsClass extends Application {
         }
     }
 
-// Startof Setters
+// Startof Getters
     public static Context getAppContext() {
         return UtilsClass.context;
     }
     public static boolean getLogToFile() {
         return UtilsClass.logToFile;
     }
-//Endof Setters
+
+    public static String getLogFile() {
+        return logFile.getPath();
+    }
+
+//Endof Getters
 
     /*
      * Check if writing to ext is possible
