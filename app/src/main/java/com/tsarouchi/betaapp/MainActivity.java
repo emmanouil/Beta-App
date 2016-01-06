@@ -31,15 +31,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        CoordinatorLayout coord = (CoordinatorLayout) findViewById(R.id.coord);
-        if(UtilsClass.getLogToFile()){
-            Snackbar.make(coord, "We can log to file", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-        }/*
+        //CoordinatorLayout coord = (CoordinatorLayout) findViewById(R.id.coord);
+        /*
         if(checkCameraHardware(UtilsClass.getAppContext())){
             Snackbar.make(coord, "We have Context", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show();
         }*/
+        if(UtilsClass.getLogToFile())
+            UtilsClass.logINFO("Logging to file: " + UtilsClass.getLogFile());
 
     }
 
