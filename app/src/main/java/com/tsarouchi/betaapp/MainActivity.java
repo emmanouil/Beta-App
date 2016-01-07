@@ -11,10 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity {
 
     private Camera camera;
+    private CameraPreview preview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
             camera = Camera.open();
         }catch (Exception e){
             UtilsClass.logERROR("Couldn't open camera: "+e);
+            return;
         }
 
         if(BuildConfig.DEBUG) {
@@ -94,7 +97,9 @@ public class MainActivity extends AppCompatActivity {
             Camera.getCameraInfo(0, infoz);
         }
 
-
+        preview = new CameraPreview(this, camera);
+        FrameLayout framePreview = (FrameLayout) findViewById(R.id.camera_preview);
+        framePreview.addView(preview);
     }
 
 
