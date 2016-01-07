@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
             Camera.getCameraInfo(0, infoz);
         }
 
+        camera.setDisplayOrientation(90);
         camPreview = new CameraPreview(this, camera);
         FrameLayout framePreview = (FrameLayout) findViewById(R.id.camera_preview);
         framePreview.addView(camPreview);
