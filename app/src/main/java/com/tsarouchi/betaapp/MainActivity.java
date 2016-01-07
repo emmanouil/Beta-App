@@ -16,7 +16,7 @@ import android.widget.FrameLayout;
 public class MainActivity extends AppCompatActivity {
 
     private Camera camera;
-    private CameraPreview preview;
+    private CameraPreview camPreview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,9 +97,9 @@ public class MainActivity extends AppCompatActivity {
             Camera.getCameraInfo(0, infoz);
         }
 
-        preview = new CameraPreview(this, camera);
+        camPreview = new CameraPreview(this, camera);
         FrameLayout framePreview = (FrameLayout) findViewById(R.id.camera_preview);
-        framePreview.addView(preview);
+        framePreview.addView(camPreview);
     }
 
 
