@@ -18,6 +18,7 @@ import java.util.Calendar;
 public class UtilsClass extends Application {
 
     private static final String TAG = "BetaAppLOG";
+    private static final String logFileName = "betaApp.log";
     private static Context context;
     private static boolean logToFile = true;
     private static File logFile;
@@ -128,7 +129,7 @@ public class UtilsClass extends Application {
         if (!sdCardDir.exists()) {
             logToFile = sdCardDir.mkdirs();
         }
-        UtilsClass.logFile = new File(sdCardDir + "/betaApp.log");
+        UtilsClass.logFile = new File(sdCardDir + "/" + logFileName);
         if (!UtilsClass.logFile.exists()) {
             try {
                 UtilsClass.logFile.createNewFile();
@@ -141,7 +142,7 @@ public class UtilsClass extends Application {
             Log.e(TAG, "File Not Created - using Android Log for logging");
             return false;
         } else {
-            logINFO("Starting new Log - File " + fileList()[0] + " is used for logging");
+            logINFO("Starting new Log - File " + logFileName + " is used for logging");
         }
         return true;
 
