@@ -82,16 +82,16 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initCamera(){
-        try{
+    private void initCamera() {
+        try {
             //this is for the back-facing camera
             camera = Camera.open();
-        }catch (Exception e){
-            UtilsClass.logERROR("Couldn't open camera: "+e);
+        } catch (Exception e) {
+            UtilsClass.logERROR("Couldn't open camera: " + e);
             return;
         }
 
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             Camera.Parameters params = camera.getParameters();
             Camera.CameraInfo infoz = new Camera.CameraInfo();
             Camera.getCameraInfo(0, infoz);
