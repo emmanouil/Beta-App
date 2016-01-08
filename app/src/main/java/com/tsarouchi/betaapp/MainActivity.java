@@ -2,6 +2,8 @@ package com.tsarouchi.betaapp;
 
 import android.content.Context;
 import android.hardware.Camera;
+import android.media.CamcorderProfile;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.content.pm.PackageManager;
 import android.support.design.widget.FloatingActionButton;
@@ -17,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Camera camera;
     private CameraPreview camPreview;
+    private MediaRecorder mr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,5 +106,14 @@ public class MainActivity extends AppCompatActivity {
         framePreview.addView(camPreview);
     }
 
+    private void startRecording(){
+        camera.unlock();
+        mr.setCamera(camera);
+        mr.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+        mr.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+        mr.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
+//TODO #1 add file management for output file
+//TODO #2 step 4a
+    }
 
 }
