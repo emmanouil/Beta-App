@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         if (UtilsClass.getLogToFile())
             UtilsClass.logINFO("Logging to file: " + UtilsClass.getLogFile());
 
-        initCamera();
+        //initCamera();
     }
 
     @Override
@@ -85,6 +85,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
+
+
+/*
     private void initCamera() {
         try {
             //this is for the back-facing camera
@@ -115,5 +119,5 @@ public class MainActivity extends AppCompatActivity {
 //TODO #1 add file management for output file
 //TODO #2 step 4a
     }
-
+*/
 }
