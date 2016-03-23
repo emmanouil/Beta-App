@@ -112,10 +112,7 @@ public class UtilsClass extends Application {
      */
     private boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
-        if (Environment.MEDIA_MOUNTED.equals(state) && UtilsClass.logToFile) {
-            return true;
-        }
-        return false;
+        return Environment.MEDIA_MOUNTED.equals(state) && UtilsClass.logToFile;
     }
 
     /*
