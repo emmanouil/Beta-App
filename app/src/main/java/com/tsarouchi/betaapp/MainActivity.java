@@ -107,8 +107,6 @@ public class MainActivity extends AppCompatActivity {
      * It should, since we declare it on manifest, but just to be on the safe side
      */
     private boolean checkCameraHardware(Context context) {
-        // this device has a camera
-// no camera on this device
         return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 
