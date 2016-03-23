@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
     private void destroyCamera() {
         camera.stopPreview();
         camera.release();
-    } 
+    }
 
     private void startRecording() {
         camera.unlock();
