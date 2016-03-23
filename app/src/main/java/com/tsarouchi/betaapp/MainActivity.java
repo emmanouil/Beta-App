@@ -26,6 +26,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
 
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
     private Uri fileUri;
 
 
@@ -40,14 +41,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_layout);
 
-        // create Intent to take a picture and return control to the calling application
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // create Intent to take a video and return control to the calling application
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 
-        fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE); // create a file to save the image
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the image file name
+        fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO); // create a file to save the video
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the video file name
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1); // set the video quality
 
         // start the image capture Intent
-        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
 
 
 
