@@ -30,8 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private Uri fileUri;
 
 
-
-
     private Camera camera;
     private CameraPreview camPreview;
     private MediaRecorder mr;
@@ -69,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         initCamera();
     }
 
-    public void startCameraIntent(){
+    public void startCameraIntent() {
         // create Intent to take a video and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 
@@ -117,13 +115,17 @@ public class MainActivity extends AppCompatActivity {
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
 
-    /** Create a file Uri for saving an image or video */
-    private static Uri getOutputMediaFileUri(int type){
+    /**
+     * Create a file Uri for saving an image or video
+     */
+    private static Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
     }
 
-    /** Create a File for saving an image or video */
-    private static File getOutputMediaFile(int type){
+    /**
+     * Create a File for saving an image or video
+     */
+    private static File getOutputMediaFile(int type) {
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
 
@@ -133,8 +135,8 @@ public class MainActivity extends AppCompatActivity {
         // between applications and persist after your app has been uninstalled.
 
         // Create the storage directory if it does not exist
-        if (! mediaStorageDir.exists()){
-            if (! mediaStorageDir.mkdirs()){
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
                 UtilsClass.logERROR("MyCameraApp failed to create directory");
                 return null;
             }
@@ -143,21 +145,18 @@ public class MainActivity extends AppCompatActivity {
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE){
+        if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_"+ timeStamp + ".jpg");
-        } else if(type == MEDIA_TYPE_VIDEO) {
+                    "IMG_" + timeStamp + ".jpg");
+        } else if (type == MEDIA_TYPE_VIDEO) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "VID_"+ timeStamp + ".mp4");
+                    "VID_" + timeStamp + ".mp4");
         } else {
             return null;
         }
 
         return mediaFile;
     }
-
-
-
 
 
     private void initCamera() {
@@ -182,12 +181,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void destroyCamera(){
+    private void destroyCamera() {
         camera.stopPreview();
         camera.release();
     }
 
-    private void startRecording(){
+    private void startRecording() {
         camera.unlock();
         mr.setCamera(camera);
         mr.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
