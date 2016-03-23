@@ -41,18 +41,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_layout);
 
-        // create Intent to take a video and return control to the calling application
-        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-
-        fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO); // create a file to save the video
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the video file name
-        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1); // set the video quality
-
-        // start the image capture Intent
-        startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
-
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -60,8 +48,12 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                destroyCamera();
+                startCameraIntent();
+                /*
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                */
             }
         });
 
@@ -74,8 +66,21 @@ public class MainActivity extends AppCompatActivity {
         if (UtilsClass.getLogToFile())
             UtilsClass.logINFO("Logging to file: " + UtilsClass.getLogFile());
 
-        //initCamera();
+        initCamera();
     }
+
+    public void startCameraIntent(){
+        // create Intent to take a video and return control to the calling application
+        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+
+        fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO); // create a file to save the video
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the video file name
+        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1); // set the video quality
+
+        // start the image capture Intent
+        startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -158,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-/*
+
     private void initCamera() {
         try {
             //this is for the back-facing camera
@@ -180,6 +185,12 @@ public class MainActivity extends AppCompatActivity {
         framePreview.addView(camPreview);
     }
 
+
+    private void destroyCamera(){
+        camera.stopPreview();
+        camera.release();
+    }
+
     private void startRecording(){
         camera.unlock();
         mr.setCamera(camera);
@@ -189,5 +200,5 @@ public class MainActivity extends AppCompatActivity {
 //TODO #1 add file management for output file
 //TODO #2 step 4a
     }
-*/
+
 }
