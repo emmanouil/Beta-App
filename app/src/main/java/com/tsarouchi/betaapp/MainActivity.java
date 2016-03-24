@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -30,14 +31,12 @@ public class MainActivity extends AppCompatActivity {
 
     private static enum CamType {NONE, NATIVE, INTENT}
 
-    ;
-
-
     private Uri fileUri;
     private Camera camera;
     private CameraPreview camPreview;
     private CamType camtype;
     private MediaRecorder mr;
+    private boolean recording = false;
 
 
     @Override
@@ -66,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 */
-            }
-        });
+        }
+    });
 
         //CoordinatorLayout coord = (CoordinatorLayout) findViewById(R.id.coord);
         /*
@@ -197,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void destroyCamera() {
+        if(recording) destroyMediaRecorder();
         camera.stopPreview();
         camera.release();
     }
@@ -234,6 +234,9 @@ public class MainActivity extends AppCompatActivity {
 
 //TODO #1 add file management for output file
     }
+
+    private  void stopRecording(){
+        recording = false;
 
     }
 
