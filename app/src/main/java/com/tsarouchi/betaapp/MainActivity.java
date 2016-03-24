@@ -27,15 +27,22 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
+
+    private static enum CamType {NONE, NATIVE, INTENT}
+
+    ;
+
+
     private Uri fileUri;
-
-
     private Camera camera;
     private CameraPreview camPreview;
+    private CamType camtype;
     private MediaRecorder mr;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        camtype = CamType.NONE;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_layout);
 
@@ -77,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
 
         // start the image capture Intent
         startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
+
+        camtype = CamType.INTENT;
     }
 
 
@@ -172,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
             Camera.getCameraInfo(0, infoz);
         }
 
+        camtype = CamType.NATIVE;
         camera.setDisplayOrientation(90);
         camPreview = new CameraPreview(this, camera);
         FrameLayout framePreview = (FrameLayout) findViewById(R.id.camera_preview);
