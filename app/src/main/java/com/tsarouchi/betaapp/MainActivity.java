@@ -195,13 +195,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startRecording() {
+
+        recording = true;
+        mr = new MediaRecorder();
         camera.unlock();
         mr.setCamera(camera);
         mr.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         mr.setVideoSource(MediaRecorder.VideoSource.CAMERA);
         mr.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
+        UtilsClass.logINFO("Video dir: "+getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
+        mr.setOutputFile(getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
+        mr.setPreviewDisplay(camPreview.getHolder().getSurface());
+        try {
+            mr.prepare();
+            UtilsClass.logINFO("MediaRecorder Ready");
+        } catch (IOException e) {
+            UtilsClass.logERROR("MediaRecorder Error: " + e);
+            destroyCamera();
+            recording = false;
+            return;
+        }
+
+        mr.start();
+
 //TODO #1 add file management for output file
-//TODO #2 step 4a
+    }
+
     }
 
 }
