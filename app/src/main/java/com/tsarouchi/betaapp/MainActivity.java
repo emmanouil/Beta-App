@@ -57,16 +57,16 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     startRecording();
                 }
-            //destroyCamera();
-            //startCameraIntent();
+                //destroyCamera();
+                //startCameraIntent();
 
 
                 /*
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
                 */
-        }
-    });
+            }
+        });
 
         //CoordinatorLayout coord = (CoordinatorLayout) findViewById(R.id.coord);
         /*
@@ -196,12 +196,12 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void destroyCamera() {
-        if(recording) destroyMediaRecorder();
+        if (recording) destroyMediaRecorder();
         camera.stopPreview();
         camera.release();
     }
 
-    private void destroyMediaRecorder(){
+    private void destroyMediaRecorder() {
         mr.stop();
         mr.reset();
         mr.release();
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity {
         mr.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         mr.setVideoSource(MediaRecorder.VideoSource.CAMERA);
         mr.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
-        UtilsClass.logINFO("Video dir: "+getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
+        UtilsClass.logINFO("Video dir: " + getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
         mr.setOutputFile(getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
         mr.setPreviewDisplay(camPreview.getHolder().getSurface());
         try {
@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
 //TODO #1 add file management for output file
     }
 
-    private  void stopRecording(){
+    private void stopRecording() {
         recording = false;
 
     }
