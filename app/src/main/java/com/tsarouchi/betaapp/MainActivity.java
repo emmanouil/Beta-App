@@ -201,6 +201,13 @@ public class MainActivity extends AppCompatActivity {
         camera.release();
     }
 
+    private void destroyMediaRecorder(){
+        mr.stop();
+        mr.reset();
+        mr.release();
+        //camera.lock();
+    }
+
     private void startRecording() {
 
         recording = true;
