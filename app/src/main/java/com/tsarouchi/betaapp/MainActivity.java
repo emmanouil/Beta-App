@@ -53,9 +53,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (recording) {
+                    Snackbar.make(view, "Stopping recording", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
                     stopRecording();
+                    //destroyCamera();  //we keep it for further recordings
+                    destroyMediaRecorder();
                 } else {
                     startRecording();
+                    Snackbar.make(view, "Starting recording", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
                 }
                 //destroyCamera();
                 //startCameraIntent();
@@ -196,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void destroyCamera() {
-        if (recording) destroyMediaRecorder();
+        //if (recording) destroyMediaRecorder();
         camera.stopPreview();
         camera.release();
     }
