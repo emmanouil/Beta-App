@@ -141,7 +141,7 @@ public class UtilsClass extends Application {
         try {
             FileWriter fileWriter = new FileWriter(locFile, true);
             BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
-            bufferWriter.write(msg);
+            bufferWriter.write(msg+"\n");
             bufferWriter.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
