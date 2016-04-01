@@ -19,9 +19,11 @@ public class UtilsClass extends Application {
 
     private static final String TAG = "BetaAppLOG";
     private static final String logFileName = "betaApp.log";
+    private static final String locFileName = "coordinates.txt";
     private static Context context;
     private static boolean logToFile = true;
-    private static File logFile;
+    private static File logFile;    //logs location
+    private static File locFile;    //coordinates location
     private static File sdCardDir;
     private static File mediaDir;
 
@@ -39,6 +41,9 @@ public class UtilsClass extends Application {
         } else {
             Log.i(TAG, "User-disabled log-to-file; using Android Log for logging");
         }
+
+        createLocationFile();
+
     }
 
     // Startof Getters
@@ -56,7 +61,7 @@ public class UtilsClass extends Application {
 
 //Endof Getters
 
-    //Startof Other Methods
+    //Startof Other Logging Methods
     public static void logERROR(String msg) {
         log(msg, LogLVL.ERROR);
     }
@@ -104,8 +109,31 @@ public class UtilsClass extends Application {
         }
 
     }
-//Endof Other Methods
+    //Endof Other Methods
 
+    //Startof Other Utility Methods
+
+    //Create File for coordinate loggin
+    private void createLocationFile(){
+        if (!sdCardDir.exists()) {
+            logERROR("Couldn't find folder for saving locations file");
+            return;
+        }
+        UtilsClass.locFile = new File(sdCardDir + "/" + locFileName);
+        if (!UtilsClass.locFile.exists()) {
+            try {
+                UtilsClass.locFile.createNewFile();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                Log.e(TAG, "exception was thrown COULDN'T CREATE LOCATIONS FILE", e);
+            }
+        }
+        if (!UtilsClass.locFile.exists()) {
+            Log.e(TAG, "Locations File Not Created");
+        } else {
+            logINFO("Starting new Log - File " + locFileName + " is used for logging");
+        }
+    }
 
     /*
      * Check if writing to ext is possible
