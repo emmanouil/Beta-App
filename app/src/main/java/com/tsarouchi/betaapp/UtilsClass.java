@@ -111,9 +111,10 @@ public class UtilsClass extends Application {
     }
     //Endof Other Methods
 
+
     //Startof Other Utility Methods
 
-    //Create File for coordinate loggin
+    //Create File for coordinate logging
     private void createLocationFile(){
         if (!sdCardDir.exists()) {
             logERROR("Couldn't find folder for saving locations file");
@@ -134,6 +135,24 @@ public class UtilsClass extends Application {
             logINFO("Starting new Log - File " + locFileName + " is used for logging");
         }
     }
+
+    //Append
+    public static void writeLocation(String msg){
+        try {
+            FileWriter fileWriter = new FileWriter(locFile, true);
+            BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
+            bufferWriter.write(msg);
+            bufferWriter.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            logERROR("couldn't write location "+ e);
+            Log.e(TAG, "exception was thrown", e);
+        }
+    }
+
+
+
+
 
     /*
      * Check if writing to ext is possible
