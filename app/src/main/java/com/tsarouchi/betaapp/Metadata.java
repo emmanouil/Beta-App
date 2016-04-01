@@ -10,7 +10,10 @@ import android.os.Bundle;
  * Created by Emmanouil on 25-Mar-16.
  */
 public class Metadata {
-    private LocationManager locationManager;// = (LocationManager)
+    private LocationManager locationManager;
+    private coordLVL coordsType = coordLVL.BOTH;
+
+    public enum coordLVL {GPS, NET, BOTH}
 
     public Metadata(Context context){
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
@@ -32,7 +35,26 @@ public class Metadata {
 
 // Register the listener with the Location Manager to receive location updates
         try {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+
+            switch (coordsType) {
+                case GPS:
+                    UtilsClass.logINFO("Getting coordinates from GPS");
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                    break;
+                case NET:
+                    UtilsClass.logINFO("Getting coordinates from Network");
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+                    break;
+                case BOTH:
+                    UtilsClass.logINFO("Getting coordinates from Network and GPS");
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+                    break;
+                default:
+                    UtilsClass.logERROR("No Coordinate source specified");
+                    break;
+            }
+            //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         } catch (SecurityException e) {
             UtilsClass.logERROR("We do not have permission to access Location Services "+e);
             e.printStackTrace();
