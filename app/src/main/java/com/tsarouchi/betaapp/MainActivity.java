@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private CamType camtype;
     private MediaRecorder mr;
     private boolean recording = false;
+    private Metadata metadata;
 
 
     @Override
@@ -82,6 +83,9 @@ public class MainActivity extends AppCompatActivity {
             UtilsClass.logINFO("Logging to file: " + UtilsClass.getLogFile());
 
         initCamera();
+
+        metadata = new Metadata(this);
+
     }
 
     public void startCameraIntent() {
@@ -221,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
         mr.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         mr.setVideoSource(MediaRecorder.VideoSource.CAMERA);
         mr.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
-        UtilsClass.logINFO("Video dir: " + getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
+        UtilsClass.logINFO("Video file: " + getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
         mr.setOutputFile(getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
         mr.setPreviewDisplay(camPreview.getHolder().getSurface());
         try {
@@ -240,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void stopRecording() {
+        UtilsClass.logINFO("Stopping Recording - Video saved at: " + getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
         recording = false;
 
     }
