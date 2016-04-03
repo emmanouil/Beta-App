@@ -15,7 +15,7 @@ public class Metadata {
 
     public enum coordLVL {GPS, NET, BOTH}
 
-    public Metadata(Context context){
+    public Metadata(Context context) {
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         // Define a listener that responds to location updates
@@ -26,11 +26,14 @@ public class Metadata {
                 recordLocation(location);
             }
 
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
 
-            public void onProviderEnabled(String provider) {}
+            public void onProviderEnabled(String provider) {
+            }
 
-            public void onProviderDisabled(String provider) {}
+            public void onProviderDisabled(String provider) {
+            }
         };
 
 // Register the listener with the Location Manager to receive location updates
@@ -56,7 +59,7 @@ public class Metadata {
             }
             //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         } catch (SecurityException e) {
-            UtilsClass.logERROR("We do not have permission to access Location Services "+e);
+            UtilsClass.logERROR("We do not have permission to access Location Services " + e);
             e.printStackTrace();
         }
 
