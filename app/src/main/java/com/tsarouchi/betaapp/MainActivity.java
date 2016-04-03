@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
 
-    private static enum CamType {NONE, NATIVE, INTENT}
+    private enum CamType {NONE, NATIVE, INTENT}
 
     private Uri fileUri;
     private Camera camera;
@@ -133,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
         return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 
-    public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int MEDIA_TYPE_VIDEO = 2;
+    private static final int MEDIA_TYPE_IMAGE = 1;
+    private static final int MEDIA_TYPE_VIDEO = 2;
 
     /**
      * Create a file Uri for saving an image or video

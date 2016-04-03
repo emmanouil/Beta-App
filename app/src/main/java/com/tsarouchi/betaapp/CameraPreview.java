@@ -14,8 +14,8 @@ import java.io.IOException;
  * reference: http://developer.android.com/guide/topics/media/camera.html
  */
 public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
-    private SurfaceHolder mHolder;
-    private Camera mCamera;
+    private final SurfaceHolder mHolder;
+    private final Camera mCamera;
 
     public CameraPreview(Context context, Camera camera) {
         super(context);
