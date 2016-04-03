@@ -115,7 +115,7 @@ public class UtilsClass extends Application {
     //Startof Other Utility Methods
 
     //Create File for coordinate logging
-    private void createLocationFile(){
+    private void createLocationFile() {
         if (!sdCardDir.exists()) {
             logERROR("Couldn't find folder for saving locations file");
             return;
@@ -137,21 +137,18 @@ public class UtilsClass extends Application {
     }
 
     //Append
-    public static void writeLocation(String msg){
+    public static void writeLocation(String msg) {
         try {
             FileWriter fileWriter = new FileWriter(locFile, true);
             BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
-            bufferWriter.write(msg+"\n");
+            bufferWriter.write(msg + "\n");
             bufferWriter.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
-            logERROR("couldn't write location "+ e);
+            logERROR("couldn't write location " + e);
             Log.e(TAG, "exception was thrown", e);
         }
     }
-
-
-
 
 
     /*
