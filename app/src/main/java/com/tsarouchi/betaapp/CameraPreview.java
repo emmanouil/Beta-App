@@ -2,8 +2,11 @@ package com.tsarouchi.betaapp;
 
 import android.content.Context;
 import android.hardware.Camera;
+import android.view.Display;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.WindowManager;
 
 import com.tsarouchi.betaapp.UtilsClass;
 
@@ -61,6 +64,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         // set preview size and make any resize, rotate or
         // reformatting changes here
+       // checkRotation(mHolder, w, h);
 
         // start preview with new settings
         try {
@@ -70,6 +74,37 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         } catch (Exception e) {
             UtilsClass.logERROR("Error starting camera preview: " + e.getMessage());
         }
+    }
+
+    private void checkRotation(SurfaceHolder holder, int width, int height){
+        Camera.Parameters parameters = mCamera.getParameters();
+        Display display = this.getDisplay();
+
+        //int height = parameters.getPictureSize().height;
+        //int width = parameters.getPictureSize().width;
+        if(display.getRotation() == Surface.ROTATION_0)
+        {
+            parameters.setPreviewSize(height, width);
+            mCamera.setDisplayOrientation(90);
+        }
+
+        if(display.getRotation() == Surface.ROTATION_90)
+        {
+            parameters.setPreviewSize(width, height);
+        }
+
+        if(display.getRotation() == Surface.ROTATION_180)
+        {
+            parameters.setPreviewSize(height, width);
+        }
+
+        if(display.getRotation() == Surface.ROTATION_270)
+        {
+            parameters.setPreviewSize(width, height);
+            mCamera.setDisplayOrientation(180);
+        }
+
+
     }
 }
 
