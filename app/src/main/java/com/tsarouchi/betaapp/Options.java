@@ -7,6 +7,18 @@ import java.io.File;
  */
 public class Options {
 
+    public enum coordLVL {GPS, NET, BOTH}
+
+    public coordLVL getCoordsType() {
+        return coordsType;
+    }
+
+    public void setCoordsType(coordLVL coordsType) {
+        this.coordsType = coordsType;
+    }
+
+    private coordLVL coordsType = coordLVL.BOTH;
+
 
     public static File getAppDir() {
         return appDir;
