@@ -42,7 +42,7 @@ public class UtilsClass extends Application {
             Log.i(TAG, "User-disabled log-to-file; using Android Log for logging");
         }
 
-        createLocationFile();
+        createLocationFile(locFileName);
 
     }
 
@@ -115,12 +115,17 @@ public class UtilsClass extends Application {
     //Startof Other Utility Methods
 
     //Create File for coordinate logging
-    private void createLocationFile() {
+    private void createLocationFile(String locationFileName) {
+        if(locationFileName==null || (locationFileName.length() <1)){
+            logERROR("calling create file with no filename");
+        }
+
         if (!sdCardDir.exists()) {
             logERROR("Couldn't find folder for saving locations file");
             return;
         }
-        UtilsClass.locFile = new File(sdCardDir + "/" + locFileName);
+
+        UtilsClass.locFile = new File(sdCardDir + "/" + locationFileName);
         if (!UtilsClass.locFile.exists()) {
             try {
                 UtilsClass.locFile.createNewFile();
@@ -132,7 +137,7 @@ public class UtilsClass extends Application {
         if (!UtilsClass.locFile.exists()) {
             Log.e(TAG, "Locations File Not Created");
         } else {
-            logINFO("Starting new Log - File " + locFileName + " is used for logging");
+            logINFO("Starting new Log - File " + locationFileName + " is used for logging");
         }
     }
 
