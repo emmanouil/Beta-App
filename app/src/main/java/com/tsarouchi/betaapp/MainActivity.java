@@ -243,6 +243,12 @@ public class MainActivity extends AppCompatActivity {
 //TODO #1 add file management for output file
     }
 
+    public boolean isRecording(){
+        if (recording) return true;
+        else return false;
+    }
+
+
     private void stopRecording() {
         UtilsClass.logINFO("Stopping Recording - Video saved at: " + getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
         recording = false;
