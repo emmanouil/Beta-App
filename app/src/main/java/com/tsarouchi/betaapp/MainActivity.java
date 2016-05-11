@@ -36,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
     private CameraPreview camPreview;
     private CamType camtype;
     private MediaRecorder mr;
-    private boolean recording = false;
+    public static boolean recording = false;
     private Metadata metadata;
+    public static String last_timestamp;
 
 
     @Override
@@ -145,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Create a File for saving an image or video
+     * WARNING: it creates a file EACH time it's being called
      */
     private static File getOutputMediaFile(int type) {
         // To be safe, you should check that the SDCard is mounted
@@ -165,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        last_timestamp = timeStamp;
         File mediaFile;
         if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator +
@@ -175,6 +178,9 @@ public class MainActivity extends AppCompatActivity {
         } else {
             return null;
         }
+        UtilsClass.logINFO("Created file: " + mediaFile.toString());
+
+        UtilsClass.createVideoLocationFile();
 
         return mediaFile;
     }
@@ -225,7 +231,6 @@ public class MainActivity extends AppCompatActivity {
         mr.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         mr.setVideoSource(MediaRecorder.VideoSource.CAMERA);
         mr.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
-        UtilsClass.logINFO("Video file: " + getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
         mr.setOutputFile(getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
         mr.setPreviewDisplay(camPreview.getHolder().getSurface());
         try {
@@ -243,14 +248,9 @@ public class MainActivity extends AppCompatActivity {
 //TODO #1 add file management for output file
     }
 
-    public boolean isRecording(){
-        if (recording) return true;
-        else return false;
-    }
-
 
     private void stopRecording() {
-        UtilsClass.logINFO("Stopping Recording - Video saved at: " + getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
+        UtilsClass.logINFO("Stopping Recording at: " + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()));
         recording = false;
 
     }

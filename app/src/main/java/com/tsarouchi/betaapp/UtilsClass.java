@@ -23,7 +23,8 @@ public class UtilsClass extends Application {
     private static Context context;
     private static boolean logToFile = true;
     private static File logFile;    //logs location
-    private static File locFile;    //coordinates location
+    private static File currLocFile;    //current coordinates file
+    private static File defLocFile;    //default coordinates file
     private static File sdCardDir;
     private static File mediaDir;
 
@@ -43,6 +44,9 @@ public class UtilsClass extends Application {
         }
 
         createLocationFile(locFileName);
+        if(currLocFile!=null && defLocFile==null){
+            defLocFile = currLocFile;
+        }
 
     }
 
@@ -114,8 +118,12 @@ public class UtilsClass extends Application {
 
     //Startof Other Utility Methods
 
+    public static void createVideoLocationFile(){
+        createLocationFile(MainActivity.last_timestamp+".txt");
+    }
+
     //Create File for coordinate logging
-    private void createLocationFile(String locationFileName) {
+    private static void createLocationFile(String locationFileName) {
         if(locationFileName==null || (locationFileName.length() <1)){
             logERROR("calling create file with no filename");
         }
@@ -125,26 +133,31 @@ public class UtilsClass extends Application {
             return;
         }
 
-        UtilsClass.locFile = new File(sdCardDir + "/" + locationFileName);
-        if (!UtilsClass.locFile.exists()) {
+        UtilsClass.currLocFile = new File(sdCardDir + "/" + locationFileName);
+        if (!UtilsClass.currLocFile.exists()) {
             try {
-                UtilsClass.locFile.createNewFile();
+                UtilsClass.currLocFile.createNewFile();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 Log.e(TAG, "exception was thrown COULDN'T CREATE LOCATIONS FILE", e);
             }
         }
-        if (!UtilsClass.locFile.exists()) {
+        if (!UtilsClass.currLocFile.exists()) {
             Log.e(TAG, "Locations File Not Created");
         } else {
-            logINFO("Starting new Log - File " + locationFileName + " is used for logging");
+            logINFO("Starting new Log - File " + locationFileName + " is used for location logging");
         }
     }
 
     //Append
     public static void writeLocation(String msg) {
         try {
-            FileWriter fileWriter = new FileWriter(locFile, true);
+            FileWriter fileWriter;
+            if(MainActivity.recording) {
+                fileWriter = new FileWriter(currLocFile, true);
+            }else{
+                fileWriter = new FileWriter(defLocFile, true);
+            }
             BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
             bufferWriter.write(msg + "\n");
             bufferWriter.close();
