@@ -2,15 +2,19 @@ package com.tsarouchi.betaapp;
 
 import android.app.Application;
 import android.content.Context;
+import android.location.Location;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+
+import org.json.JSONObject;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Map;
 
 /**
  * Created by Emmanouil on 17-Dec-15.
@@ -168,6 +172,17 @@ public class UtilsClass extends Application {
         }
     }
 
+    public static JSONObject locationToJSON(Location location){
+        Map locMap = null;
+        locMap.put("Provider",location.getProvider());
+        locMap.put("Latitude",location.getLatitude());
+        locMap.put("Longitude",location.getLongitude());
+        locMap.put("Altitude",location.getAltitude());
+        locMap.put("Time",location.getTime());
+        locMap.put("Accuracy",location.getAccuracy());
+        locMap.put("Velocity",location.getSpeed());
+        return new JSONObject(locMap);
+    }
 
     /*
      * Check if writing to ext is possible
