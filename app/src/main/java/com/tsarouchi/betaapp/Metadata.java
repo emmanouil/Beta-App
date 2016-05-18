@@ -6,12 +6,15 @@ import android.location.LocationManager;
 import android.content.Context;
 import android.os.Bundle;
 
+import org.json.JSONException;
+
 /**
  * Created by Emmanouil on 25-Mar-16.
  */
 public class Metadata {
     private LocationManager locationManager;
     private coordLVL coordsType = coordLVL.BOTH;
+    private Location gpsLoc,netLoc;
 
     public enum coordLVL {GPS, NET, BOTH}
 
@@ -22,7 +25,7 @@ public class Metadata {
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 // Called when a new location is found by the network location provider.
-                UtilsClass.logDEBUG("call");
+                UtilsClass.logDEBUG("location listener called");
                 recordLocation(location);
             }
 
@@ -66,7 +69,15 @@ public class Metadata {
     }
 
     private void recordLocation(Location location) {
-        UtilsClass.writeLocation(location.toString());
+        try {
+            //TODO 1. Do we really need JSON convertion, since we re-stringify?
+            //TODO 2. Error-handling
+            UtilsClass.writeLocation(UtilsClass.locationToJSON(location).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            UtilsClass.logDEBUG("ERROR @ JSON lvl2");
+        }
+        //UtilsClass.writeLocation(location.toString());
     }
 
 
