@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedWriter;
@@ -172,16 +173,23 @@ public class UtilsClass extends Application {
         }
     }
 
-    public static JSONObject locationToJSON(Location location){
-        Map locMap = null;
-        locMap.put("Provider",location.getProvider());
-        locMap.put("Latitude",location.getLatitude());
-        locMap.put("Longitude",location.getLongitude());
-        locMap.put("Altitude",location.getAltitude());
-        locMap.put("Time",location.getTime());
-        locMap.put("Accuracy",location.getAccuracy());
-        locMap.put("Velocity",location.getSpeed());
-        return new JSONObject(locMap);
+    public static JSONObject locationToJSON(Location location) throws JSONException {
+        String json = "{\n"
+                + " \"Provider\" : \""+location.getProvider()+"\", "
+                + " \"Latitude\" : "+location.getLatitude()+", "
+                + " \"Longitude\" : "+location.getLongitude()+", "
+                + " \"Time\" : "+location.getTime()+", "
+                + " \"Accuracy\" : "+location.getAccuracy()+", "
+                + " \"Velocity\" : "+location.getSpeed()+"\n "
+                +"}";
+        //TODO prettify try-catch and handle return
+        try {
+            return new JSONObject(json);
+        } catch (JSONException e) {
+            //e.printStackTrace();
+            UtilsClass.logDEBUG("ERROR @ JSON lvl1 "+e.getMessage());
+        }
+        return new JSONObject("ERROR");
     }
 
     /*
