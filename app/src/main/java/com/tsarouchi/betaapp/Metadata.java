@@ -1,5 +1,10 @@
 package com.tsarouchi.betaapp;
 
+import android.content.SearchRecentSuggestionsProvider;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -16,9 +21,20 @@ public class Metadata {
     private coordLVL coordsType = coordLVL.BOTH;
     private Location gpsLoc,netLoc;
 
+    private SensorManager sensorManager;
+    private Sensor gyroscopeSensor, orientationSensor;
+
+
     public enum coordLVL {GPS, NET, BOTH}
 
     public Metadata(Context context) {
+        initiateLocationServices(context);
+        initiateGyroscopeServices(context);
+
+    }
+
+
+    private void initiateLocationServices(Context context) {
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         // Define a listener that responds to location updates
@@ -67,6 +83,29 @@ public class Metadata {
         }
 
     }
+
+
+
+    private void initiateGyroscopeServices(Context context){
+        sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        orientationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR);
+
+        SensorEventListener sensorEventListener = new SensorEventListener() {
+
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+                UtilsClass.logINFO(sensor.getName() + " CURR ACC:" + accuracy);
+            }
+
+                public void onSensorChanged(SensorEvent event) {
+                UtilsClass.logINFO("NEW" + event.toString());
+            }
+        };
+
+    }
+
+
+
+
 
     private void recordLocation(Location location) {
         try {
