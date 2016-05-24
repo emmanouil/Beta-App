@@ -2,6 +2,7 @@ package com.tsarouchi.betaapp;
 
 import android.app.Application;
 import android.content.Context;
+import android.hardware.SensorEvent;
 import android.location.Location;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
@@ -190,6 +191,15 @@ public class UtilsClass extends Application {
             UtilsClass.logDEBUG("ERROR @ JSON lvl1 "+e.getMessage());
         }
         return new JSONObject("ERROR");
+    }
+
+    public static void writeSensorData(SensorEvent event){
+        String toWrite="{\n"
+                + " \"Sensor\" : \""+event.sensor.getName()+"\", "
+                + " \"Values\" : "+event.values+", "
+                + " \"Time (Local)\" : "+event.timestamp+", "
+                + " \"Accuracy\" : "+event.accuracy+"\n "
+                +"}";
     }
 
     /*
