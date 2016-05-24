@@ -193,13 +193,14 @@ public class UtilsClass extends Application {
         return new JSONObject("ERROR");
     }
 
-    public static void writeSensorData(SensorEvent event){
-        String toWrite="{\n"
+    public static String SensorDataToString(SensorEvent event){
+        String sensorDataString="{\n"
                 + " \"Sensor\" : \""+event.sensor.getName()+"\", "
                 + " \"Values\" : "+event.values+", "
                 + " \"Time (Local)\" : "+event.timestamp+", "
                 + " \"Accuracy\" : "+event.accuracy+"\n "
                 +"}";
+        return sensorDataString;
     }
 
     /*
