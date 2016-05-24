@@ -1,6 +1,5 @@
 package com.tsarouchi.betaapp;
 
-import android.content.SearchRecentSuggestionsProvider;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -19,18 +18,18 @@ import org.json.JSONException;
 public class Metadata {
     private LocationManager locationManager;
     private coordLVL coordsType = coordLVL.BOTH;
-    private Location gpsLoc,netLoc;
+    private Location gpsLoc, netLoc;
 
     private SensorManager sensorManager;
-    private Sensor gyroscopeSensor, orientationSensor;
+    private Sensor gyroscopeSensor, orientationSensor, magnetometer;
+    private SensorActivity sensorActivity;
 
 
     public enum coordLVL {GPS, NET, BOTH}
 
     public Metadata(Context context) {
         initiateLocationServices(context);
-        initiateGyroscopeServices(context);
-
+        sensorActivity = new SensorActivity(context);
     }
 
 
