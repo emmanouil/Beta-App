@@ -111,12 +111,12 @@ public class Metadata {
         try {
             //TODO 1. Do we really need JSON convertion, since we re-stringify?
             //TODO 2. Error-handling
-            UtilsClass.writeLocation(UtilsClass.locationToJSON(location).toString());
+            UtilsClass.writeDataToFile(UtilsClass.locationToJSON(location).toString());
         } catch (JSONException e) {
             e.printStackTrace();
             UtilsClass.logDEBUG("ERROR @ JSON lvl2");
         }
-        //UtilsClass.writeLocation(location.toString());
+        //UtilsClass.writeDataToFile(location.toString());
     }
 
 

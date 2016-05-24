@@ -155,7 +155,7 @@ public class UtilsClass extends Application {
     }
 
     //Append
-    public static void writeLocation(String msg) {
+    public static void writeDataToFile(String msg) {
         try {
             FileWriter fileWriter;
             if(MainActivity.recording) {
