@@ -84,29 +84,6 @@ public class Metadata {
 
     }
 
-
-
-    private void initiateGyroscopeServices(Context context){
-        sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-        orientationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GEOMAGNETIC_ROTATION_VECTOR);
-
-        SensorEventListener sensorEventListener = new SensorEventListener() {
-
-            public void onAccuracyChanged(Sensor sensor, int accuracy) {
-                UtilsClass.logINFO(sensor.getName() + " CURR ACC:" + accuracy);
-            }
-
-                public void onSensorChanged(SensorEvent event) {
-                UtilsClass.logINFO("NEW" + event.toString());
-            }
-        };
-
-    }
-
-
-
-
-
     private void recordLocation(Location location) {
         try {
             //TODO 1. Do we really need JSON convertion, since we re-stringify?
