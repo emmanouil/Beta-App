@@ -98,3 +98,43 @@ public class Metadata {
 
 
 }
+
+/**
+ * Adds (and register) a sensor listener
+ * we use it for measuring magnetic field (for now)
+ */
+class SensorActivity implements SensorEventListener {
+    private final SensorManager sensorManager;
+    private final Sensor magnetometer;
+
+    public SensorActivity(Context context) {
+        sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        //TODO handle register and unregister listener
+        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    protected void onResume() {
+        UtilsClass.logINFO("resumed");
+        //super.onResume();
+        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    protected void onPause() {
+        //super.onPause();
+        UtilsClass.logINFO("paused");
+        sensorManager.unregisterListener(this);
+    }
+
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        UtilsClass.writeSensorData(event);
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        UtilsClass.logINFO(sensor.getName() + "  CURR ACC:" + accuracy);
+    }
+}
+
