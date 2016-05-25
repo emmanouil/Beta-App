@@ -181,8 +181,10 @@ public class UtilsClass extends Application {
                 + " \"Longitude\" : "+location.getLongitude()+", "
                 + " \"Time\" : "+location.getTime()+", "
                 + " \"Accuracy\" : "+location.getAccuracy()+", "
+                + " \"Bearing\" : "+location.getBearing()+", "  //TODO check this
                 + " \"Velocity\" : "+location.getSpeed()+"\n "
                 +"}";
+//        Log.i(TAG, " \"Extras\" : "+location.getExtras().keySet());
         //TODO prettify try-catch and handle return
         try {
             return new JSONObject(json);
