@@ -194,13 +194,13 @@ public class UtilsClass extends Application {
         }
         return new JSONObject("ERROR");
     }
-
+    //TODO we put it in single-line for testing (format it after that)
     public static String SensorDataToString(SensorEvent event){
-        String sensorDataString="{\n"
+        String sensorDataString="{"
                 + " \"Sensor\" : \""+event.sensor.getName()+"\", "
                 + " \"Values\" : "+event.values+", "
                 + " \"Time (Local)\" : "+event.timestamp+", "
-                + " \"Accuracy\" : "+event.accuracy+"\n "
+                + " \"Accuracy\" : "+event.accuracy
                 +"}";
         return sensorDataString;
     }
