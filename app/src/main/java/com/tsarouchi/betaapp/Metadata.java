@@ -128,7 +128,7 @@ class SensorActivity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        UtilsClass.writeSensorData(event);
+        UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
     }
 
     @Override
