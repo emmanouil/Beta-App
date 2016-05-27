@@ -116,6 +116,11 @@ class SensorActivity implements SensorEventListener {
     private final Sensor magnetometer;
     private final Sensor accelerometer;
     private final Sensor gyrometer;
+    private float[] lastAcc;
+    private float[] lastMagn;
+    private float rotation[] = new float[9];
+    private float identity[] = new float[9];
+    private boolean newAcc = false, newMagn = false;
 
     public SensorActivity(Context context) {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
@@ -145,7 +150,44 @@ class SensorActivity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
+        switch(event.sensor.getType()){
+            case Sensor.TYPE_ACCELEROMETER:
+                lastAcc = event.values;
+                UtilsClass.logINFO("acc length: "+lastAcc.length);
+                newAcc = true;
+                UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
+                break;
+            case Sensor.TYPE_GYROSCOPE:
+                UtilsClass.logINFO("GYRO WHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+                UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
+                break;
+            case Sensor.TYPE_MAGNETIC_FIELD:
+                lastMagn = event.values;
+                newMagn = true;
+                UtilsClass.logINFO("magn length: "+lastMagn.length);
+                UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
+                break;
+        }
+
+        if(newAcc || newMagn){
+            newAcc = newMagn = false;
+            boolean gotRotation = false;
+            try {
+                gotRotation = SensorManager.getRotationMatrix(rotation, identity, lastAcc, lastMagn);
+            } catch (Exception e) {
+                gotRotation = false;
+                UtilsClass.logERROR("one of the two is null  (if it's once, it's ok)"+ e.getMessage());
+            }
+            if (gotRotation) {
+                //Orientation Vector
+                float orientation[] = new float[3];
+                SensorManager.getOrientation(rotation, orientation);
+                UtilsClass.logINFO("Orientation:   "+orientation[0]+" ,  "+orientation[1]+" ,  "+orientation[2]);
+            }
+        }
+
+
+
     }
 
     @Override
