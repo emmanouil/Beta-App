@@ -16,6 +16,14 @@ import org.json.JSONException;
  * Created by Emmanouil on 25-Mar-16.
  */
 public class Metadata {
+
+    private final static Location coordNorthPole = new Location("manual");
+    static{
+        coordNorthPole.setLatitude(90d);
+        coordNorthPole.setLongitude(0d);
+        coordNorthPole.setAltitude(0d);
+    }
+
     private LocationManager locationManager;
     private coordLVL coordsType = coordLVL.BOTH;
     private Location gpsLoc, netLoc;
@@ -84,6 +92,7 @@ public class Metadata {
     }
 
     private void recordLocation(Location location) {
+        UtilsClass.logINFO("Bearing: "+location.bearingTo(coordNorthPole));
         try {
             //TODO 1. Do we really need JSON convertion, since we re-stringify?
             //TODO 2. Error-handling
