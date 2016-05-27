@@ -114,12 +114,20 @@ public class Metadata {
 class SensorActivity implements SensorEventListener {
     private final SensorManager sensorManager;
     private final Sensor magnetometer;
+    private final Sensor accelerometer;
+    private final Sensor gyrometer;
 
     public SensorActivity(Context context) {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        gyrometer = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
+
         //TODO handle register and unregister listener
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, gyrometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     protected void onResume() {
