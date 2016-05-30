@@ -36,10 +36,9 @@ public class Metadata {
     public enum coordLVL {GPS, NET, BOTH}
 
     public Metadata(Context context) {
-        initiateLocationServices(context);
+        //initiateLocationServices(context);
         sensorActivity = new SensorActivity(context);
     }
-
 
     private void initiateLocationServices(Context context) {
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
@@ -130,15 +129,16 @@ class SensorActivity implements SensorEventListener {
 
 
         //TODO handle register and unregister listener
-        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
-        sensorManager.registerListener(this, gyrometer, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_UI);
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        //sensorManager.registerListener(this, gyrometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     protected void onResume() {
         UtilsClass.logINFO("resumed");
         //super.onResume();
-        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
     }
 
     protected void onPause() {
@@ -150,26 +150,25 @@ class SensorActivity implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+
         switch(event.sensor.getType()){
             case Sensor.TYPE_ACCELEROMETER:
                 lastAcc = event.values;
-                UtilsClass.logINFO("acc length: "+lastAcc.length);
                 newAcc = true;
-                UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
+               // UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
                 break;
             case Sensor.TYPE_GYROSCOPE:
                 UtilsClass.logINFO("GYRO WHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
+                //UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
                 lastMagn = event.values;
                 newMagn = true;
-                UtilsClass.logINFO("magn length: "+lastMagn.length);
-                UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
+               // UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
                 break;
         }
 
-        if(newAcc || newMagn){
+        //if(newAcc || newMagn){
             newAcc = newMagn = false;
             boolean gotRotation = false;
             try {
@@ -184,7 +183,7 @@ class SensorActivity implements SensorEventListener {
                 SensorManager.getOrientation(rotation, orientation);
                 UtilsClass.logINFO("Orientation:   "+orientation[0]+" ,  "+orientation[1]+" ,  "+orientation[2]);
             }
-        }
+        //}
 
 
 
@@ -192,7 +191,7 @@ class SensorActivity implements SensorEventListener {
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        UtilsClass.logINFO(sensor.getName() + "  CURR ACC:" + accuracy);
+       // UtilsClass.logINFO(sensor.getName() + "  CURR ACC:" + accuracy);
     }
 }
 

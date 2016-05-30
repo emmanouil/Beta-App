@@ -9,6 +9,7 @@ public class Options {
 
     public enum coordLVL {GPS, NET, BOTH}
 
+
     public coordLVL getCoordsType() {
         return coordsType;
     }
