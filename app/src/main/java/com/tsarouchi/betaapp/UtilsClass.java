@@ -27,7 +27,7 @@ public class UtilsClass extends Application {
     private static final String logFileName = "betaApp.log";
     private static final String locFileName = "coordinates.txt";
     private static Context context;
-    private static boolean logToFile = true;
+    private static boolean logToFile = false;
     private static File logFile;    //logs location
     private static File currLocFile;    //current coordinates file
     private static File defLocFile;    //default coordinates file
@@ -46,6 +46,7 @@ public class UtilsClass extends Application {
         if (UtilsClass.logToFile) {
             UtilsClass.logToFile = createLogFile();
         } else {
+            sdCardDir = new File(ContextCompat.getExternalFilesDirs(context, null)[0].getAbsolutePath());
             Log.i(TAG, "User-disabled log-to-file; using Android Log for logging");
         }
 
@@ -218,9 +219,7 @@ public class UtilsClass extends Application {
      */
     //TODO checkthis
     private boolean createLogFile() {
-        //  sdCardDir = new File(ContextCompat.getExternalCacheDirs(context)[0].getAbsolutePath()+"/BetAppOut");
-        //  sdCardDir = getFilesDir();
-        sdCardDir = new File(ContextCompat.getExternalFilesDirs(context, null)[0].getAbsolutePath());
+        //sdCardDir = new File(ContextCompat.getExternalFilesDirs(context, null)[0].getAbsolutePath());
         if (!sdCardDir.exists()) {
             logToFile = sdCardDir.mkdirs();
         }
