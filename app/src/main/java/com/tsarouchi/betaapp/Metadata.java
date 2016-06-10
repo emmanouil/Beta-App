@@ -17,19 +17,20 @@ import org.json.JSONException;
  */
 public class Metadata {
 
-    private final static Location coordNorthPole = new Location("manual");
+    private static final coordLVL LOCATION_SERVICE = coordLVL.BOTH;
+    
+    private final static Location NORTH_POLE = new Location("manual");
     static{
-        coordNorthPole.setLatitude(90d);
-        coordNorthPole.setLongitude(0d);
-        coordNorthPole.setAltitude(0d);
+        NORTH_POLE.setLatitude(90d);
+        NORTH_POLE.setLongitude(0d);
+        NORTH_POLE.setAltitude(0d);
     }
 
     private LocationManager locationManager;
-    private coordLVL coordsType = coordLVL.BOTH;
     private Location gpsLoc, netLoc;
 
     private SensorManager sensorManager;
-    private Sensor gyroscopeSensor, orientationSensor, magnetometer;
+    private Sensor orientationSensor, magnetometer;
     private SensorActivity sensorActivity;
 
 
@@ -64,7 +65,7 @@ public class Metadata {
 // Register the listener with the Location Manager to receive location updates
         try {
 
-            switch (coordsType) {
+            switch (LOCATION_SERVICE) {
                 case GPS:
                     UtilsClass.logINFO("Getting coordinates from GPS");
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
@@ -91,7 +92,7 @@ public class Metadata {
     }
 
     private void recordLocation(Location location) {
-        UtilsClass.logINFO("Bearing: "+location.bearingTo(coordNorthPole));
+        UtilsClass.logINFO("Bearing: "+location.bearingTo(NORTH_POLE));
         try {
             //TODO 1. Do we really need JSON convertion, since we re-stringify?
             //TODO 2. Error-handling
@@ -114,7 +115,7 @@ class SensorActivity implements SensorEventListener {
     private final SensorManager sensorManager;
     private final Sensor magnetometer;
     private final Sensor accelerometer;
-    private final Sensor gyrometer;
+    //private final Sensor gyrometer;
     private float[] lastAcc;
     private float[] lastMagn;
     private float rotation[] = new float[9];
@@ -125,7 +126,7 @@ class SensorActivity implements SensorEventListener {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        gyrometer = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        //gyrometer = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
 
         //TODO handle register and unregister listener
@@ -158,7 +159,6 @@ class SensorActivity implements SensorEventListener {
                // UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
                 break;
             case Sensor.TYPE_GYROSCOPE:
-                UtilsClass.logINFO("GYRO WHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
                 //UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
