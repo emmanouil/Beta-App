@@ -16,18 +16,20 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Calendar;
-import java.util.Map;
 
 /**
  * Created by Emmanouil on 17-Dec-15.
  */
 public class UtilsClass extends Application {
 
+//Startof Options
     private static final String TAG = "BetaAppLOG";
     private static final String logFileName = "betaApp.log";
     private static final String locFileName = "coordinates.txt";
-    private static Context context;
     private static boolean logToFile = false;
+//Endof Options
+
+    private static Context context;
     private static File logFile;    //logs location
     private static File currLocFile;    //current coordinates file
     private static File defLocFile;    //default coordinates file

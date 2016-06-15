@@ -9,6 +9,11 @@ import android.hardware.SensorManager;
 import com.tsarouchi.betaapp.UtilsClass;
 
 class SensorActivity implements SensorEventListener {
+
+//Startof Options
+
+//Endof Options
+
     private final SensorManager sensorManager;
     private final Sensor magnetometer;
     private final Sensor accelerometer;

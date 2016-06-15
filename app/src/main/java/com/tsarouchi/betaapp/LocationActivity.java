@@ -13,9 +13,11 @@ import org.json.JSONException;
  */
 public class LocationActivity {
 
-    private LocationManager locationManager;
-
+//Startof Options
     private static final coordLVL LOCATION_SERVICE = coordLVL.BOTH;
+//Endof Options
+
+    private LocationManager locationManager;
 
     public enum coordLVL {GPS, NET, BOTH}
 
@@ -81,7 +83,7 @@ public class LocationActivity {
 
 
     private void recordLocation(Location location) {
-        UtilsClass.logINFO("Bearing: "+location.bearingTo(NORTH_POLE));
+        //UtilsClass.logINFO("Bearing: "+location.bearingTo(NORTH_POLE));
         try {
             //TODO 1. Do we really need JSON convertion, since we re-stringify?
             //TODO 2. Error-handling

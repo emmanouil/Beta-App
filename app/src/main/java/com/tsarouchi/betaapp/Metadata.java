@@ -32,17 +32,4 @@ public class Metadata {
         sensorActivity = new SensorActivity(context);
     }
 
-    private void initiateLocationServices(Context context) {
-
-    }
-
-
-
-
 }
-
-/**
- * Adds (and register) a sensor listener
- * we use it for measuring magnetic field (for now)
- */
-
