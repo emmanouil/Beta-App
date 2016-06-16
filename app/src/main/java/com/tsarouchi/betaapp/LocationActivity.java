@@ -29,7 +29,7 @@ public class LocationActivity {
         NORTH_POLE.setAltitude(0d);
     }
 
-    private static long event_time = 0;
+    private static long event_time = 0, nano_time = 0;
 
 
 
@@ -41,9 +41,10 @@ public class LocationActivity {
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 // Called when a new location is found by the network location provider.
+                nano_time = System.nanoTime();
                 event_time = System.currentTimeMillis();
                 UtilsClass.logDEBUG("location listener called");
-                recordLocation(location, event_time);
+                recordLocation(location, event_time, nano_time);
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -86,13 +87,13 @@ public class LocationActivity {
     }
 
 
-    private void recordLocation(Location location, long event_time) {
+    private void recordLocation(Location location, long event_time, long nano_time) {
         //UtilsClass.logINFO("Bearing: "+location.bearingTo(NORTH_POLE));
         try {
             //TODO 1. Do we really need JSON convertion, since we re-stringify?
             //TODO 2. Error-handling
             //TODO 3. NOTE: time (timestamp) is in ms
-            UtilsClass.writeDataToFile(UtilsClass.locationToJSON(location, event_time).toString());
+            UtilsClass.writeDataToFile(UtilsClass.locationToJSON(location, event_time, nano_time).toString());
 //            UtilsClass.writeDataToFile(SystemClock.uptimeMillis() + "   t2: "+SystemClock.currentThreadTimeMillis()+"   t3: "+SystemClock.elapsedRealtime());
 //            UtilsClass.writeDataToFile(System.currentTimeMillis() + "   t2a: "+System.nanoTime());
         } catch (JSONException e) {

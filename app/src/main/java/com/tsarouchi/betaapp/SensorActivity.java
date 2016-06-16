@@ -5,8 +5,11 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.SystemClock;
 
 import com.tsarouchi.betaapp.UtilsClass;
+
+import org.json.JSONException;
 
 class SensorActivity implements SensorEventListener {
 
@@ -25,7 +28,8 @@ class SensorActivity implements SensorEventListener {
     private float rotation[] = new float[9];
     private float identity[] = new float[9];
     private boolean newAcc = false, newMagn = false, newRot = false;
-    private static long event_time = 0;
+//    private static long time_diff = 0, time_base = 0;
+    private static long event_time = 0, nano_time =0;
 
     public SensorActivity(Context context) {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
@@ -39,6 +43,8 @@ class SensorActivity implements SensorEventListener {
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_UI);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
         sensorManager.registerListener(this, rot, SensorManager.SENSOR_DELAY_UI);
+//        time_diff = SystemClock.uptimeMillis();
+//        time_base = System.currentTimeMillis();
         //sensorManager.registerListener(this, gyrometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
@@ -62,10 +68,11 @@ class SensorActivity implements SensorEventListener {
 
         switch(event.sensor.getType()){
             case Sensor.TYPE_ACCELEROMETER:
+                nano_time = System.nanoTime();
                 event_time = System.currentTimeMillis();
                 lastAcc = event.values;
                 newAcc = true;
-                recordSensor(event, Sensor.TYPE_ACCELEROMETER, event_time);
+                recordSensor(event, Sensor.TYPE_ACCELEROMETER, event_time, nano_time);
                 // UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
                 break;
             case Sensor.TYPE_GYROSCOPE:
@@ -73,10 +80,11 @@ class SensorActivity implements SensorEventListener {
                 UtilsClass.logERROR("Received Not handled Gyroscope Event");
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
+                nano_time = System.nanoTime();
                 event_time = System.currentTimeMillis();
                 lastMagn = event.values;
                 newMagn = true;
-                recordSensor(event, Sensor.TYPE_MAGNETIC_FIELD, event_time);
+                recordSensor(event, Sensor.TYPE_MAGNETIC_FIELD, event_time, nano_time);
                 // UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
                 break;
             case Sensor.TYPE_ROTATION_VECTOR:
@@ -118,22 +126,13 @@ class SensorActivity implements SensorEventListener {
         // UtilsClass.logINFO(sensor.getName() + "  CURR ACC:" + accuracy);
     }
 
-
-    private void recordSensor(SensorEvent event, int sensorType){
-        _recordSensor(event, sensorType, -1);   //TODO: merge timed/untimed the methods
-    }
-
-    private void recordSensor(SensorEvent event, int sensorType, long event_time) {
-        _recordSensor(event, sensorType, event_time);
-    }
-
-    private void _recordSensor(SensorEvent event, int sensorType, long event_time) {
+    private void recordSensor(SensorEvent event, int sensorType, long event_time, long nano_time) {
         //UtilsClass.logINFO("Bearing: "+location.bearingTo(NORTH_POLE));
         try {
             //TODO 1. Do we really need JSON convertion, since we re-stringify?
             //TODO 2. Error-handling
             //TODO 3. NOTE: check time
-            UtilsClass.writeDataToFile(UtilsClass.sensorToJSON(event, sensorType, event_time).toString());
+            UtilsClass.writeDataToFile(UtilsClass.sensorToJSON(event, sensorType, event_time, nano_time).toString());
         } catch (JSONException e) {
             e.printStackTrace();
             UtilsClass.logDEBUG("ERROR @ JSON lvl2");
