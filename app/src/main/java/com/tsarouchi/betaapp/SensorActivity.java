@@ -63,17 +63,21 @@ class SensorActivity implements SensorEventListener {
             case Sensor.TYPE_ACCELEROMETER:
                 lastAcc = event.values;
                 newAcc = true;
+                recordSensor(event, Sensor.TYPE_ACCELEROMETER);
                 // UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
                 break;
             case Sensor.TYPE_GYROSCOPE:
                 //UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
+                UtilsClass.logERROR("Received Not handled Gyroscope Event");
                 break;
             case Sensor.TYPE_MAGNETIC_FIELD:
                 lastMagn = event.values;
                 newMagn = true;
+                recordSensor(event, Sensor.TYPE_MAGNETIC_FIELD);
                 // UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
                 break;
             case Sensor.TYPE_ROTATION_VECTOR:
+                UtilsClass.logERROR("Received Not handled Rotation Vector Event");
                 lastRot = event.values;
                 newRot = true;
                 break;
@@ -110,4 +114,22 @@ class SensorActivity implements SensorEventListener {
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // UtilsClass.logINFO(sensor.getName() + "  CURR ACC:" + accuracy);
     }
+
+
+    private void recordSensor(SensorEvent event, int sensorType) {
+        //UtilsClass.logINFO("Bearing: "+location.bearingTo(NORTH_POLE));
+        try {
+            //TODO 1. Do we really need JSON convertion, since we re-stringify?
+            //TODO 2. Error-handling
+            //TODO 3. NOTE: check time
+            UtilsClass.writeDataToFile(UtilsClass.sensorToJSON(event, sensorType).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            UtilsClass.logDEBUG("ERROR @ JSON lvl2");
+        }
+        //UtilsClass.writeDataToFile(location.toString());
+    }
+
+
+
 }
