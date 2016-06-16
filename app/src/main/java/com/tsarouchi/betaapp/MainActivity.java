@@ -207,7 +207,6 @@ public class MainActivity extends AppCompatActivity {
         framePreview.addView(camPreview);
     }
 
-
     private void destroyCamera() {
         //if (recording) destroyMediaRecorder();
         camera.stopPreview();
@@ -246,7 +245,6 @@ public class MainActivity extends AppCompatActivity {
 
 //TODO #1 add file management for output file
     }
-
 
     private void stopRecording() {
         UtilsClass.logINFO("Stopping Recording at: " + new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()));

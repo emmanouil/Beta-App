@@ -78,7 +78,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     private void checkRotation(SurfaceHolder holder, int width, int height){
         Camera.Parameters parameters = mCamera.getParameters();
-        Display display = this.getDisplay();
+        Display display = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            display = this.getDisplay();
+        }else{
+            UtilsClass.logERROR("Check SDK version (min: Jelly Bean)");
+        }
 
         //int height = parameters.getPictureSize().height;
         //int width = parameters.getPictureSize().width;
