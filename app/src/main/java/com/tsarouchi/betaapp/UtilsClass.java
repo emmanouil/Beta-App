@@ -197,6 +197,40 @@ public class UtilsClass extends Application {
         }
         return new JSONObject("ERROR");
     }
+
+    public static JSONObject sensorToJSON(SensorEvent event, int sensorType) throws JSONException{
+        String json;
+        if(sensorType == 1) {    //ACC
+             json = "{\n"
+                    + " \"Type\" : \"ACCELERATION\", "
+                    + " \"X\" : " + event.values[0] + ", "
+                     + " \"Y\" : " + event.values[1] + ", "
+                     + " \"Z\" : " + event.values[2] + ", "
+                    + " \"Time\" : " + event.timestamp + ", "
+                     + " \"Accuracy\" : "+event.accuracy+"\n "
+                    + "}";
+        }else if(sensorType == 2) {    //MAGNETIC FIELD
+            json = "{\n"
+                    + " \"Type\" : \"MAGNETIC FIELD\", "
+                    + " \"X\" : " + event.values[0] + ", "
+                    + " \"Y\" : " + event.values[1] + ", "
+                    + " \"Z\" : " + event.values[2] + ", "
+                    + " \"Time\" : " + event.timestamp + ", "
+                    + " \"Accuracy\" : "+event.accuracy+"\n "
+                    + "}";
+        }else{  //UNHANDLED
+                return new JSONObject("ERROR [Unknown sensor type in sensorToJSON");
+        }
+        //TODO prettify try-catch and handle return
+        try {
+            return new JSONObject(json);
+        } catch (JSONException e) {
+            //e.printStackTrace();
+            UtilsClass.logDEBUG("ERROR @ JSON lvl1 "+e.getMessage());
+        }
+        return new JSONObject("ERROR");
+    }
+
     //TODO we put it in single-line for testing (format it after that)
     public static String SensorDataToString(SensorEvent event){
         String sensorDataString="{"
