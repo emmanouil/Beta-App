@@ -177,12 +177,13 @@ public class UtilsClass extends Application {
         }
     }
 
-    public static JSONObject locationToJSON(Location location) throws JSONException {
+    public static JSONObject locationToJSON(Location location, long event_time) throws JSONException {
         String json = "{\n"
                 + " \"Provider\" : \""+location.getProvider()+"\", "
                 + " \"Latitude\" : "+location.getLatitude()+", "
                 + " \"Longitude\" : "+location.getLongitude()+", "
                 + " \"Time\" : "+location.getTime()+", "
+                + " \"Timestamp\" : "+event_time+", "
                 + " \"Accuracy\" : "+location.getAccuracy()+", "
                 + " \"Bearing\" : "+location.getBearing()+", "  //TODO check this
                 + " \"Velocity\" : "+location.getSpeed()+"\n "
@@ -198,8 +199,13 @@ public class UtilsClass extends Application {
         return new JSONObject("ERROR");
     }
 
-    public static JSONObject sensorToJSON(SensorEvent event, int sensorType) throws JSONException{
-        String json;
+    public static JSONObject sensorToJSON(SensorEvent event, int sensorType, long event_time) throws JSONException{
+        String json, tmps;
+        if (event_time > 0) {
+            tmps = " \"Timestamp\" : " + event_time + ", ";
+        }else{
+            tmps = "";
+        }
         if(sensorType == 1) {    //ACC
              json = "{\n"
                     + " \"Type\" : \"ACCELERATION\", "
@@ -207,6 +213,7 @@ public class UtilsClass extends Application {
                      + " \"Y\" : " + event.values[1] + ", "
                      + " \"Z\" : " + event.values[2] + ", "
                     + " \"Time\" : " + event.timestamp + ", "
+                     +tmps
                      + " \"Accuracy\" : "+event.accuracy+"\n "
                     + "}";
         }else if(sensorType == 2) {    //MAGNETIC FIELD
@@ -216,6 +223,7 @@ public class UtilsClass extends Application {
                     + " \"Y\" : " + event.values[1] + ", "
                     + " \"Z\" : " + event.values[2] + ", "
                     + " \"Time\" : " + event.timestamp + ", "
+                    +tmps
                     + " \"Accuracy\" : "+event.accuracy+"\n "
                     + "}";
         }else{  //UNHANDLED

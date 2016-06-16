@@ -29,6 +29,9 @@ public class LocationActivity {
         NORTH_POLE.setAltitude(0d);
     }
 
+    private static long event_time = 0;
+
+
 
     public LocationActivity(Context context) {
 
@@ -38,8 +41,9 @@ public class LocationActivity {
         LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 // Called when a new location is found by the network location provider.
+                event_time = System.currentTimeMillis();
                 UtilsClass.logDEBUG("location listener called");
-                recordLocation(location);
+                recordLocation(location, event_time);
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -82,12 +86,15 @@ public class LocationActivity {
     }
 
 
-    private void recordLocation(Location location) {
+    private void recordLocation(Location location, long event_time) {
         //UtilsClass.logINFO("Bearing: "+location.bearingTo(NORTH_POLE));
         try {
             //TODO 1. Do we really need JSON convertion, since we re-stringify?
             //TODO 2. Error-handling
-            UtilsClass.writeDataToFile(UtilsClass.locationToJSON(location).toString());
+            //TODO 3. NOTE: time (timestamp) is in ms
+            UtilsClass.writeDataToFile(UtilsClass.locationToJSON(location, event_time).toString());
+//            UtilsClass.writeDataToFile(SystemClock.uptimeMillis() + "   t2: "+SystemClock.currentThreadTimeMillis()+"   t3: "+SystemClock.elapsedRealtime());
+//            UtilsClass.writeDataToFile(System.currentTimeMillis() + "   t2a: "+System.nanoTime());
         } catch (JSONException e) {
             e.printStackTrace();
             UtilsClass.logDEBUG("ERROR @ JSON lvl2");
