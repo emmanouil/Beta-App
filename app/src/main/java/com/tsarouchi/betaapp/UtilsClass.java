@@ -22,7 +22,7 @@ import java.util.Calendar;
  */
 public class UtilsClass extends Application {
 
-//Startof Options
+    //Startof Options
     private static final String TAG = "BetaAppLOG";
     private static final String logFileName = "betaApp.log";
     private static final String locFileName = "coordinates.txt";
@@ -53,7 +53,7 @@ public class UtilsClass extends Application {
         }
 
         createLocationFile(locFileName);
-        if(currLocFile!=null && defLocFile==null){
+        if (currLocFile != null && defLocFile == null) {
             defLocFile = currLocFile;
         }
 
@@ -127,13 +127,13 @@ public class UtilsClass extends Application {
 
     //Startof Other Utility Methods
 
-    public static void createVideoLocationFile(){
-        createLocationFile(MainActivity.last_timestamp+".txt");
+    public static void createVideoLocationFile() {
+        createLocationFile(MainActivity.last_timestamp + ".txt");
     }
 
     //Create File for coordinate logging
     private static void createLocationFile(String locationFileName) {
-        if(locationFileName==null || (locationFileName.length() <1)){
+        if (locationFileName == null || (locationFileName.length() < 1)) {
             logERROR("calling create file with no filename");
         }
 
@@ -162,9 +162,9 @@ public class UtilsClass extends Application {
     public static void writeDataToFile(String msg) {
         try {
             FileWriter fileWriter;
-            if(MainActivity.recording) {
+            if (MainActivity.recording) {
                 fileWriter = new FileWriter(currLocFile, true);
-            }else{
+            } else {
                 fileWriter = new FileWriter(defLocFile, true);
             }
             BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
@@ -186,85 +186,100 @@ public class UtilsClass extends Application {
             locJSON.put("Time", location.getTime());
             locJSON.put("LocalTimestamp", event_time);
             locJSON.put("LocalNanostamp", nano_time);
-            if(location.hasAccuracy())locJSON.put("Accuracy", location.getAccuracy());
-            if(location.hasAltitude())locJSON.put("Altitude", location.getAltitude());
-            if(location.hasBearing())locJSON.put("Bearing", location.getBearing());
-            if(location.hasSpeed())locJSON.put("Velocity", location.getSpeed());
+            if (location.hasAccuracy())
+                locJSON.put("Accuracy", location.getAccuracy());  //in meters
+            if (location.hasAltitude())
+                locJSON.put("Altitude", location.getAltitude()); //in meters above the WGS 84 reference ellipsoid
+            if (location.hasBearing())
+                locJSON.put("Bearing", location.getBearing()); //[0, 360] travel bearing (NOT related to device orientation)
+            if (location.hasSpeed()) locJSON.put("Velocity", location.getSpeed());    //in m/s
         } catch (JSONException e) {
             //e.printStackTrace();
-            UtilsClass.logDEBUG("ERROR @ JSON lvl1 "+e.getMessage());
+            UtilsClass.logDEBUG("ERROR @ JSON lvl1 " + e.getMessage());
         }
         return locJSON;
     }
 
     public static JSONObject _locationToJSON(Location location, long event_time, long nano_time) throws JSONException {
         String json = "{\n"
-                + " \"Provider\" : \""+location.getProvider()+"\", "
-                + " \"Latitude\" : "+location.getLatitude()+", "
-                + " \"Longitude\" : "+location.getLongitude()+", "
-                + " \"Time\" : "+location.getTime()+", "
-                + " \"LocalTimestamp\" : "+event_time+", "
-                + " \"LocalNanostamp\" : "+nano_time+", "
-                + " \"Accuracy\" : "+location.getAccuracy()+", "    //in meters
-                + " \"Bearing\" : "+location.getBearing()+", "  //TODO check this (in GPS)
-                + " \"Velocity\" : "+location.getSpeed()+"\n "
-                +"}";
+                + " \"Provider\" : \"" + location.getProvider() + "\", "
+                + " \"Latitude\" : " + location.getLatitude() + ", "
+                + " \"Longitude\" : " + location.getLongitude() + ", "
+                + " \"Time\" : " + location.getTime() + ", "
+                + " \"LocalTimestamp\" : " + event_time + ", "
+                + " \"LocalNanostamp\" : " + nano_time + ", "
+                + " \"Accuracy\" : " + location.getAccuracy() + ", "    //in meters
+                + " \"Bearing\" : " + location.getBearing() + ", "  //TODO check this (in GPS)
+                + " \"Velocity\" : " + location.getSpeed() + "\n "
+                + "}";
 //        Log.i(TAG, " \"Extras\" : "+location.getExtras().keySet());
         //TODO prettify try-catch and handle return
         try {
             return new JSONObject(json);
         } catch (JSONException e) {
             //e.printStackTrace();
-            UtilsClass.logDEBUG("ERROR @ JSON lvl1 "+e.getMessage());
+            UtilsClass.logDEBUG("ERROR @ JSON lvl1 " + e.getMessage());
         }
         return new JSONObject("ERROR");
     }
 
-    public static JSONObject sensorToJSON(SensorEvent event, int sensorType, long event_time, long nano_time) throws JSONException{
+    public static JSONObject sensorToJSON(SensorEvent event, int sensorType, long event_time, long nano_time) throws JSONException {
         String json;
-        if(sensorType == 1) {    //ACC
-             json = "{\n"
+        if (sensorType == 1) {    //ACC
+            json = "{\n"
                     + " \"Type\" : \"ACCELERATION\", "
                     + " \"X\" : " + event.values[0] + ", "
-                     + " \"Y\" : " + event.values[1] + ", "
-                     + " \"Z\" : " + event.values[2] + ", "
+                    + " \"Y\" : " + event.values[1] + ", "
+                    + " \"Z\" : " + event.values[2] + ", "
                     + " \"Time\" : " + event.timestamp + ", "
-                     + " \"LocalTimestamp\" : "+event_time+", "
-                     + " \"LocalNanostamp\" : "+nano_time+", "
-                     + " \"Accuracy\" : "+event.accuracy+"\n "
+                    + " \"LocalTimestamp\" : " + event_time + ", "
+                    + " \"LocalNanostamp\" : " + nano_time + ", "
+                    + " \"Accuracy\" : " + event.accuracy + "\n "
                     + "}";
-        }else if(sensorType == 2) {    //MAGNETIC FIELD
+        } else if (sensorType == 2) {    //MAGNETIC FIELD
             json = "{\n"
                     + " \"Type\" : \"MAGNETIC FIELD\", "
                     + " \"X\" : " + event.values[0] + ", "
                     + " \"Y\" : " + event.values[1] + ", "
                     + " \"Z\" : " + event.values[2] + ", "
                     + " \"Time\" : " + event.timestamp + ", "
-                    + " \"LocalTimestamp\" : "+event_time+", "
-                    + " \"LocalNanostamp\" : "+nano_time+", "
-                    + " \"Accuracy\" : "+event.accuracy+"\n "
+                    + " \"LocalTimestamp\" : " + event_time + ", "
+                    + " \"LocalNanostamp\" : " + nano_time + ", "
+                    + " \"Accuracy\" : " + event.accuracy + "\n "
                     + "}";
-        }else{  //UNHANDLED
-                return new JSONObject("ERROR [Unknown sensor type in sensorToJSON");
+        } else {  //UNHANDLED
+            return new JSONObject("ERROR [Unknown sensor type in sensorToJSON");
         }
         //TODO prettify try-catch and handle return
         try {
             return new JSONObject(json);
         } catch (JSONException e) {
             //e.printStackTrace();
-            UtilsClass.logDEBUG("ERROR @ JSON lvl1 "+e.getMessage());
+            UtilsClass.logDEBUG("ERROR @ JSON lvl1 " + e.getMessage());
         }
         return new JSONObject("ERROR");
     }
 
+    public static JSONObject orientationToJSON(float[] orientation, long event_time) throws JSONException {
+        String json;
+        json = "{\n"
+                + " \"Type\" : \"ORIENTATION\", "
+                + " \"X\" : " + orientation[0] + ", "
+                + " \"Y\" : " + orientation[1] + ", "
+                + " \"Z\" : " + orientation[2] + ", "
+                + " \"LocalTimestamp\" : " + event_time + "\n"
+                + "}";
+        return new JSONObject(json);
+    }
+
     //TODO we put it in single-line for testing (format it after that)
-    public static String SensorDataToString(SensorEvent event){
-        String sensorDataString="{"
-                + " \"Sensor\" : \""+event.sensor.getName()+"\", "
-                + " \"Values\" : "+event.values+", "
-                + " \"Time (Local)\" : "+event.timestamp+", "
-                + " \"Accuracy\" : "+event.accuracy
-                +"}";
+    public static String SensorDataToString(SensorEvent event) {
+        String sensorDataString = "{"
+                + " \"Sensor\" : \"" + event.sensor.getName() + "\", "
+                + " \"Values\" : " + event.values + ", "
+                + " \"Time (Local)\" : " + event.timestamp + ", "
+                + " \"Accuracy\" : " + event.accuracy
+                + "}";
         return sensorDataString;
     }
 

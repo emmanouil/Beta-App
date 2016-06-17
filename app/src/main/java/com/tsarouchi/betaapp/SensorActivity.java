@@ -5,9 +5,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.SystemClock;
-
-import com.tsarouchi.betaapp.UtilsClass;
 
 import org.json.JSONException;
 
@@ -25,11 +22,13 @@ class SensorActivity implements SensorEventListener {
     private float[] lastAcc;
     private float[] lastMagn;
     private float[] lastRot;
-    private float rotation[] = new float[9];
+    private float[] orientation;
+    private float rotationMx[] = new float[9];
+    private float rotationMxRaw[] = new float[9];
     private float identity[] = new float[9];
-    private boolean newAcc = false, newMagn = false, newRot = false;
-//    private static long time_diff = 0, time_base = 0;
-    private static long event_time = 0, nano_time =0;
+    private boolean newAcc = false, newMagn = false, newRot = false, gotOrient = false;
+    //    private static long time_diff = 0, time_base = 0;
+    private static long event_time = 0, nano_time = 0;
 
     public SensorActivity(Context context) {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
@@ -66,13 +65,17 @@ class SensorActivity implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-        switch(event.sensor.getType()){
+        switch (event.sensor.getType()) {
             case Sensor.TYPE_ACCELEROMETER:
                 nano_time = System.nanoTime();
                 event_time = System.currentTimeMillis();
                 lastAcc = event.values;
                 newAcc = true;
+                gotOrient = calculateRotationMx();
                 recordSensor(event, Sensor.TYPE_ACCELEROMETER, event_time, nano_time);
+                if (!gotOrient) return;
+                calculateOrientation();
+                recordOrientation(orientation, event_time);
                 // UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
                 break;
             case Sensor.TYPE_GYROSCOPE:
@@ -94,12 +97,13 @@ class SensorActivity implements SensorEventListener {
                 break;
         }
 
-        if(newRot){
+        if (newRot) {
             newRot = false;
-            UtilsClass.logINFO("ROTA:   "+lastRot[0]+" ,  "+lastRot[1]+" ,  "+lastRot[2]);
+            UtilsClass.logINFO("ROTA:   " + lastRot[0] + " ,  " + lastRot[1] + " ,  " + lastRot[2]);
             return;
         }
 
+/*
         //if(newAcc || newMagn){
         newAcc = newMagn = false;
         boolean gotRotation = false;
@@ -116,7 +120,7 @@ class SensorActivity implements SensorEventListener {
             UtilsClass.logINFO("Orientation:   "+orientation[0]+" ,  "+orientation[1]+" ,  "+orientation[2]);
         }
         //}
-
+*/
 
 
     }
@@ -140,6 +144,57 @@ class SensorActivity implements SensorEventListener {
         //UtilsClass.writeDataToFile(location.toString());
     }
 
+    private void recordOrientation(float[] orientation, long event_time) {
+        try {
+            UtilsClass.writeDataToFile(UtilsClass.orientationToJSON(orientation, event_time).toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            UtilsClass.logDEBUG("ERROR @ JSON lvl2");
+        }
+    }
 
+    private boolean calculateRotationMx() {
+        boolean gotRotation = false;
+
+        try {
+            gotRotation = SensorManager.getRotationMatrix(rotationMxRaw, null, lastAcc, lastMagn);
+        } catch (Exception e) {
+            gotRotation = false;
+            UtilsClass.logERROR("Error getting rotation matrix" + e.getMessage());
+        }
+
+        if (gotRotation) {
+            rotationMx = rotationMxRaw.clone();
+        }
+
+/*
+        if (gotRotation) {
+            //NOTE: the rotation considered is according to device natural orientation
+            //and it might NOT be the same as the screen orientation
+            switch (displayDev.getRotation()) {
+                case 1: //Surface.ROTATION_90
+                    rotationMx = rotationMxRaw.clone();
+                    break;
+                case 2: //Surface.ROTATION_180
+                    SensorManager.remapCoordinateSystem(rotationMxRaw, SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_X, rotationMx);
+                    break;
+                case 3: //Surface.ROTATION_270
+                    SensorManager.remapCoordinateSystem(rotationMxRaw, SensorManager.AXIS_MINUS_X, SensorManager.AXIS_MINUS_Y, rotationMx);
+                    break;
+                case 0: //no rotation (= Surface.ROTATION_0)
+                    SensorManager.remapCoordinateSystem(rotationMxRaw, SensorManager.AXIS_MINUS_Y, SensorManager.AXIS_X, rotationMx);
+                    break;
+            }
+        }
+*/
+        return gotRotation;
+    }
+
+    private void calculateOrientation() {
+        float[] tmpOrient = new float[3];
+        SensorManager.getOrientation(rotationMx, tmpOrient);
+        orientation = tmpOrient.clone();
+//        UtilsClass.logINFO("Received Orientation - Yaw: " + orientation[0] + " , Pitch: " + orientation[1] + " , Roll: " + orientation[2]);
+    }
 
 }
