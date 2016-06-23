@@ -11,4 +11,4 @@
 
 
 ## Client
-TODO
+* Remove OUT_ prefix and .txt extension from playlist
