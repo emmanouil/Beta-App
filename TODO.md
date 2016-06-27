@@ -1,3 +1,7 @@
+## General
+* Map video time with Location Points
+* Add Graph with possible Location Point Switch (?)
+
 ## App
 
 *  :zap: Fix camera bug (preview & record)
@@ -12,3 +16,4 @@
 
 ## Client
 * Remove OUT_ prefix and .txt extension from playlist
+* Display available switches
