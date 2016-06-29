@@ -1,15 +1,11 @@
 package com.tsarouchi.betaapp;
 
-import android.content.Context;
-import android.content.Intent;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
-import android.content.pm.PackageManager;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -24,9 +20,6 @@ import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
-    private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
-
     public void startCamera(View view) {
         if (recording) {
             Snackbar.make(view, "Stopping recording", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
@@ -39,11 +32,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private enum CamType {NONE, NATIVE, INTENT}
+    private enum CamType {NONE, NATIVE}
 
     private Camera camera;
     private CameraPreview camPreview;
-    private CamType camtype;
     private MediaRecorder mr;
     public static boolean recording = false;
     public static String last_timestamp;
@@ -51,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        camtype = CamType.NONE;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_layout);
 
@@ -69,36 +60,16 @@ public class MainActivity extends AppCompatActivity {
                     startRecording();
                     Snackbar.make(view, "Starting recording", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
                 }
-                //destroyCamera();
-                //startCameraIntent();
             }
         });
 */
         //CoordinatorLayout coord = (CoordinatorLayout) findViewById(R.id.coord);
-        /*
-        if(checkCameraHardware(UtilsClass.getAppContext())){
-            Snackbar.make(coord, "We have Context", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show();
-        }*/
+
         if (UtilsClass.getLogToFile())
             UtilsClass.logINFO("Logging to file: " + UtilsClass.getLogFile());
 
         initCamera();
 
-    }
-
-    public void startCameraIntent() {
-        // create Intent to take a video and return control to the calling application
-        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-
-        Uri fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the video file name
-        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1); // set the video quality
-
-        // start the image capture Intent
-        startActivityForResult(intent, CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE);
-
-        camtype = CamType.INTENT;
     }
 
     @Override
@@ -124,28 +95,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Check if this device has a camera
-     * It should, since we declare it on manifest, but just to be on the safe side
-     */
-    private boolean checkCameraHardware(Context context) {
-        return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
-    }
-
-    private static final int MEDIA_TYPE_IMAGE = 1;
-    private static final int MEDIA_TYPE_VIDEO = 2;
-
-    /**
      * Create a file Uri for saving an image or video
      */
-    private static Uri getOutputMediaFileUri(int type) {
-        return Uri.fromFile(getOutputMediaFile(type));
+    private static Uri getOutputMediaFileUri() {
+        return Uri.fromFile(getOutputMediaFile());
     }
 
     /**
      * Create a File for saving an image or video
      * WARNING: it creates a file EACH time it's being called
      */
-    private static File getOutputMediaFile(int type) {
+    private static File getOutputMediaFile() {
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
 
@@ -166,15 +126,8 @@ public class MainActivity extends AppCompatActivity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         last_timestamp = timeStamp;
         File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_" + timeStamp + ".jpg");
-        } else if (type == MEDIA_TYPE_VIDEO) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator +
                     "VID_" + timeStamp + ".mp4");
-        } else {
-            return null;
-        }
         UtilsClass.logINFO("Created file: " + mediaFile.toString());
 
         UtilsClass.createVideoLocationFile();
@@ -199,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
             Camera.getCameraInfo(0, infoz);
         }
 
-        camtype = CamType.NATIVE;
         camera.setDisplayOrientation(90);
         camPreview = new CameraPreview(this, camera);
         FrameLayout framePreview = (FrameLayout) findViewById(R.id.camera_preview);
@@ -233,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
 
         mr.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
 
-        mr.setOutputFile(getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
+        mr.setOutputFile(getOutputMediaFile().toString());
         mr.setPreviewDisplay(camPreview.getHolder().getSurface());
         try {
             mr.prepare();

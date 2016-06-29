@@ -24,6 +24,7 @@ class SensorActivity implements SensorEventListener {
     private float[] lastRot;
     private float[] orientation;
     private float rotationMx[] = new float[9];
+    @SuppressWarnings("CanBeFinal")
     private float rotationMxRaw[] = new float[9];
     private float identity[] = new float[9];
     private boolean newRot = false;

@@ -89,18 +89,10 @@ public class LocationActivity {
 
     private void recordLocation(Location location, long event_time, long nano_time) {
         //UtilsClass.logINFO("Bearing: "+location.bearingTo(NORTH_POLE));
-        try {
             //TODO 1. Do we really need JSON convertion, since we re-stringify?
             //TODO 2. Error-handling
             //TODO 3. NOTE: time (timestamp) is in ms
             UtilsClass.writeDataToFile(UtilsClass.locationToJSON(location, event_time, nano_time).toString());
-//            UtilsClass.writeDataToFile(SystemClock.uptimeMillis() + "   t2: "+SystemClock.currentThreadTimeMillis()+"   t3: "+SystemClock.elapsedRealtime());
-//            UtilsClass.writeDataToFile(System.currentTimeMillis() + "   t2a: "+System.nanoTime());
-        } catch (JSONException e) {
-            e.printStackTrace();
-            UtilsClass.logDEBUG("ERROR @ JSON lvl2");
-        }
-        //UtilsClass.writeDataToFile(location.toString());
     }
 
 
