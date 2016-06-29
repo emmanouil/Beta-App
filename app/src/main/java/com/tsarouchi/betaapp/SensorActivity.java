@@ -26,9 +26,7 @@ class SensorActivity implements SensorEventListener {
     private float rotationMx[] = new float[9];
     private float rotationMxRaw[] = new float[9];
     private float identity[] = new float[9];
-    private boolean newAcc = false, newMagn = false, newRot = false, gotOrient = false;
-    //    private static long time_diff = 0, time_base = 0;
-    private static long event_time = 0, nano_time = 0;
+    private boolean newRot = false;
 
     public SensorActivity(Context context) {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
@@ -67,11 +65,10 @@ class SensorActivity implements SensorEventListener {
 
         switch (event.sensor.getType()) {
             case Sensor.TYPE_ACCELEROMETER:
-                nano_time = System.nanoTime();
-                event_time = System.currentTimeMillis();
+                long nano_time = System.nanoTime();
+                long event_time = System.currentTimeMillis();
                 lastAcc = event.values;
-                newAcc = true;
-                gotOrient = calculateRotationMx();
+                boolean gotOrient = calculateRotationMx();
                 recordSensor(event, Sensor.TYPE_ACCELEROMETER, event_time, nano_time);
                 if (!gotOrient) return;
                 calculateOrientation();
@@ -86,7 +83,6 @@ class SensorActivity implements SensorEventListener {
                 nano_time = System.nanoTime();
                 event_time = System.currentTimeMillis();
                 lastMagn = event.values;
-                newMagn = true;
                 recordSensor(event, Sensor.TYPE_MAGNETIC_FIELD, event_time, nano_time);
                 // UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
                 break;
@@ -154,7 +150,7 @@ class SensorActivity implements SensorEventListener {
     }
 
     private boolean calculateRotationMx() {
-        boolean gotRotation = false;
+        boolean gotRotation;
 
         try {
             gotRotation = SensorManager.getRotationMatrix(rotationMxRaw, null, lastAcc, lastMagn);

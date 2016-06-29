@@ -19,6 +19,8 @@ import java.util.Calendar;
 
 /**
  * Created by Emmanouil on 17-Dec-15.
+ *
+ * Holds helper functions
  */
 public class UtilsClass extends Application {
 
@@ -29,12 +31,10 @@ public class UtilsClass extends Application {
     private static boolean logToFile = false;
 //Endof Options
 
-    private static Context context;
     private static File logFile;    //logs location
     private static File currLocFile;    //current coordinates file
     private static File defLocFile;    //default coordinates file
     private static File sdCardDir;
-    private static File mediaDir;
 
     public enum LogLVL {ERROR, INFO, DEBUG}
 
@@ -43,7 +43,7 @@ public class UtilsClass extends Application {
      */
     public void onCreate() {
         super.onCreate();
-        UtilsClass.context = getApplicationContext();
+        Context context = getApplicationContext();
         UtilsClass.logToFile = isExternalStorageWritable();
         if (UtilsClass.logToFile) {
             UtilsClass.logToFile = createLogFile();
@@ -60,10 +60,11 @@ public class UtilsClass extends Application {
     }
 
     // Startof Getters
+/*
     public static Context getAppContext() {
         return UtilsClass.context;
     }
-
+*/
     public static boolean getLogToFile() {
         return UtilsClass.logToFile;
     }
@@ -143,15 +144,16 @@ public class UtilsClass extends Application {
         }
 
         UtilsClass.currLocFile = new File(sdCardDir + "/" + locationFileName);
+        boolean newfile = true;
         if (!UtilsClass.currLocFile.exists()) {
             try {
-                UtilsClass.currLocFile.createNewFile();
+                newfile =  UtilsClass.currLocFile.createNewFile();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 Log.e(TAG, "exception was thrown COULDN'T CREATE LOCATIONS FILE", e);
             }
         }
-        if (!UtilsClass.currLocFile.exists()) {
+        if (!UtilsClass.currLocFile.exists() || !newfile) {
             Log.e(TAG, "Locations File Not Created");
         } else {
             logINFO("Starting new Log - File " + locationFileName + " is used for location logging");
@@ -271,7 +273,7 @@ public class UtilsClass extends Application {
                 + "}";
         return new JSONObject(json);
     }
-
+/*
     //TODO we put it in single-line for testing (format it after that)
     public static String SensorDataToString(SensorEvent event) {
         String sensorDataString = "{"
@@ -282,7 +284,7 @@ public class UtilsClass extends Application {
                 + "}";
         return sensorDataString;
     }
-
+*/
     /*
      * Check if writing to ext is possible
      */
@@ -301,15 +303,16 @@ public class UtilsClass extends Application {
             logToFile = sdCardDir.mkdirs();
         }
         UtilsClass.logFile = new File(sdCardDir + "/" + logFileName);
+        boolean newfile = true;
         if (!UtilsClass.logFile.exists()) {
             try {
-                UtilsClass.logFile.createNewFile();
+                newfile = UtilsClass.logFile.createNewFile();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 Log.e(TAG, "exception was thrown", e);
             }
         }
-        if (!UtilsClass.logFile.exists()) {
+        if (!UtilsClass.logFile.exists() || !newfile) {
             Log.e(TAG, "File Not Created - using Android Log for logging");
             return false;
         } else {

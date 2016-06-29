@@ -6,7 +6,6 @@ import android.view.Display;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.WindowManager;
 
 import com.tsarouchi.betaapp.UtilsClass;
 
@@ -76,7 +75,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
-    private void checkRotation(SurfaceHolder holder, int width, int height){
+    private void checkRotation(int width, int height){
         Camera.Parameters parameters = mCamera.getParameters();
         Display display = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {

@@ -10,10 +10,8 @@ import android.os.Bundle;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,15 +27,25 @@ public class MainActivity extends AppCompatActivity {
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private static final int CAPTURE_VIDEO_ACTIVITY_REQUEST_CODE = 200;
 
+    public void startCamera(View view) {
+        if (recording) {
+            Snackbar.make(view, "Stopping recording", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
+            stopRecording();
+            //destroyCamera();  //we keep it for further recordings
+            destroyMediaRecorder();
+        } else {
+            startRecording();
+            Snackbar.make(view, "Starting recording", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
+        }
+    }
+
     private enum CamType {NONE, NATIVE, INTENT}
 
-    private Uri fileUri;
     private Camera camera;
     private CameraPreview camPreview;
     private CamType camtype;
     private MediaRecorder mr;
     public static boolean recording = false;
-    private Metadata metadata;
     public static String last_timestamp;
 
 
@@ -47,9 +55,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_layout);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
+/*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,15 +71,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //destroyCamera();
                 //startCameraIntent();
-
-
-                /*
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                */
             }
         });
-
+*/
         //CoordinatorLayout coord = (CoordinatorLayout) findViewById(R.id.coord);
         /*
         if(checkCameraHardware(UtilsClass.getAppContext())){
@@ -85,15 +85,13 @@ public class MainActivity extends AppCompatActivity {
 
         initCamera();
 
-        metadata = new Metadata(this);
-
     }
 
     public void startCameraIntent() {
         // create Intent to take a video and return control to the calling application
         Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 
-        fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO); // create a file to save the video
+        Uri fileUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri); // set the video file name
         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1); // set the video quality
 
@@ -196,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (BuildConfig.DEBUG) {
             Camera.Parameters params = camera.getParameters();
+            UtilsClass.logDEBUG(params.flatten());
             Camera.CameraInfo infoz = new Camera.CameraInfo();
             Camera.getCameraInfo(0, infoz);
         }

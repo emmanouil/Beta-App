@@ -10,14 +10,14 @@ import org.json.JSONException;
 
 /**
  * Created by Emmanouil on 13-Jun-16.
+ *
+ * Location data handling
  */
 public class LocationActivity {
 
 //Startof Options
     private static final coordLVL LOCATION_SERVICE = coordLVL.BOTH;
 //Endof Options
-
-    private LocationManager locationManager;
 
     public enum coordLVL {GPS, NET, BOTH}
 
@@ -35,7 +35,7 @@ public class LocationActivity {
 
     public LocationActivity(Context context) {
 
-        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         // Define a listener that responds to location updates
         LocationListener locationListener = new LocationListener() {
