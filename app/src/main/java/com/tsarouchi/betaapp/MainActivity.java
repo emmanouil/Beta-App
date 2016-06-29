@@ -228,10 +228,12 @@ public class MainActivity extends AppCompatActivity {
         mr.setCamera(camera);
         mr.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         mr.setVideoSource(MediaRecorder.VideoSource.CAMERA);
-        mr.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-//        mr.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+//        mr.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
 //        mr.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+//        mr.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
+
         mr.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
+
         mr.setOutputFile(getOutputMediaFile(MEDIA_TYPE_VIDEO).toString());
         mr.setPreviewDisplay(camPreview.getHolder().getSurface());
         try {
