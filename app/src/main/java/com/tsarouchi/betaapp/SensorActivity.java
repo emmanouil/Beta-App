@@ -96,7 +96,6 @@ class SensorActivity implements SensorEventListener {
         if (newRot) {
             newRot = false;
             UtilsClass.logINFO("ROTA:   " + lastRot[0] + " ,  " + lastRot[1] + " ,  " + lastRot[2]);
-            return;
         }
 
 /*

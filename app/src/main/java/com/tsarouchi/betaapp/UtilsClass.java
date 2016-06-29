@@ -179,7 +179,7 @@ public class UtilsClass extends Application {
         }
     }
 
-    public static JSONObject locationToJSON(Location location, long event_time, long nano_time) throws JSONException {
+    public static JSONObject locationToJSON(Location location, long event_time, long nano_time) {
         JSONObject locJSON = new JSONObject();
         try {
             locJSON.put("Provider", location.getProvider());
@@ -200,29 +200,6 @@ public class UtilsClass extends Application {
             UtilsClass.logDEBUG("ERROR @ JSON lvl1 " + e.getMessage());
         }
         return locJSON;
-    }
-
-    public static JSONObject _locationToJSON(Location location, long event_time, long nano_time) throws JSONException {
-        String json = "{\n"
-                + " \"Provider\" : \"" + location.getProvider() + "\", "
-                + " \"Latitude\" : " + location.getLatitude() + ", "
-                + " \"Longitude\" : " + location.getLongitude() + ", "
-                + " \"Time\" : " + location.getTime() + ", "
-                + " \"LocalTimestamp\" : " + event_time + ", "
-                + " \"LocalNanostamp\" : " + nano_time + ", "
-                + " \"Accuracy\" : " + location.getAccuracy() + ", "    //in meters
-                + " \"Bearing\" : " + location.getBearing() + ", "  //TODO check this (in GPS)
-                + " \"Velocity\" : " + location.getSpeed() + "\n "
-                + "}";
-//        Log.i(TAG, " \"Extras\" : "+location.getExtras().keySet());
-        //TODO prettify try-catch and handle return
-        try {
-            return new JSONObject(json);
-        } catch (JSONException e) {
-            //e.printStackTrace();
-            UtilsClass.logDEBUG("ERROR @ JSON lvl1 " + e.getMessage());
-        }
-        return new JSONObject("ERROR");
     }
 
     public static JSONObject sensorToJSON(SensorEvent event, int sensorType, long event_time, long nano_time) throws JSONException {
