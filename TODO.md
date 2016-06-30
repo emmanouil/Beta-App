@@ -10,6 +10,7 @@
 * Add 'Type' field in Location records
 
 ## Server / Processor
+* Fix duration of first Sensor
 * :zap: We assume every event is recorded in order (will **NOT** be the case if/when multi-threaded)
 * Handle different timing (e.g. when recording from mobile ACC is current time, MAG is uptime)
 * Decide on output format
