@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private MediaRecorder mr;
     public static boolean recording = false;
     public static String last_timestamp;
+    SensorActivitySingleThread sensors;
 
 
     @Override
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             UtilsClass.logINFO("Logging to file: " + UtilsClass.getLogFile());
 
         initCamera();
+        sensors = new SensorActivitySingleThread(this.getBaseContext());
 
     }
 
