@@ -10,9 +10,6 @@ import org.json.JSONException;
 
 class SensorActivity implements SensorEventListener {
 
-//Startof Options
-
-//Endof Options
 
     private final SensorManager sensorManager;
     private final Sensor magnetometer;
@@ -35,7 +32,6 @@ class SensorActivity implements SensorEventListener {
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         rot = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         //gyrometer = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-
 
         //TODO handle register and unregister listener
         sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_UI);
@@ -60,65 +56,55 @@ class SensorActivity implements SensorEventListener {
         sensorManager.unregisterListener(this);
     }
 
+    class HandleSensorData implements Runnable{
 
-    @Override
+        SensorEvent event;
+        public HandleSensorData(SensorEvent event_in){
+            event = event_in;
+        }
+
+        public void run(){
+            switch (event.sensor.getType()) {
+                case Sensor.TYPE_ACCELEROMETER:
+                    long nano_time = System.nanoTime();
+                    long event_time = System.currentTimeMillis();
+                    lastAcc = event.values;
+                    boolean gotOrient = calculateRotationMx();
+                    recordSensor(event, Sensor.TYPE_ACCELEROMETER, event_time, nano_time);
+                    if (!gotOrient) return;
+                    calculateOrientation();
+                    recordOrientation(orientation, event_time);
+                    // UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
+                    break;
+                case Sensor.TYPE_GYROSCOPE:
+                    //UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
+                    UtilsClass.logERROR("Received Not handled Gyroscope Event");
+                    break;
+                case Sensor.TYPE_MAGNETIC_FIELD:
+                    nano_time = System.nanoTime();
+                    event_time = System.currentTimeMillis();
+                    lastMagn = event.values;
+                    recordSensor(event, Sensor.TYPE_MAGNETIC_FIELD, event_time, nano_time);
+                    // UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
+                    break;
+                case Sensor.TYPE_ROTATION_VECTOR:
+                    UtilsClass.logERROR("Received Not handled Rotation Vector Event");
+                    lastRot = event.values;
+                    newRot = true;
+                    break;
+            }
+
+            if (newRot) {
+                newRot = false;
+                UtilsClass.logINFO("ROTA:   " + lastRot[0] + " ,  " + lastRot[1] + " ,  " + lastRot[2]);
+            }
+
+        }
+
+    }
+
     public void onSensorChanged(SensorEvent event) {
-
-        switch (event.sensor.getType()) {
-            case Sensor.TYPE_ACCELEROMETER:
-                long nano_time = System.nanoTime();
-                long event_time = System.currentTimeMillis();
-                lastAcc = event.values;
-                boolean gotOrient = calculateRotationMx();
-                recordSensor(event, Sensor.TYPE_ACCELEROMETER, event_time, nano_time);
-                if (!gotOrient) return;
-                calculateOrientation();
-                recordOrientation(orientation, event_time);
-                // UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
-                break;
-            case Sensor.TYPE_GYROSCOPE:
-                //UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
-                UtilsClass.logERROR("Received Not handled Gyroscope Event");
-                break;
-            case Sensor.TYPE_MAGNETIC_FIELD:
-                nano_time = System.nanoTime();
-                event_time = System.currentTimeMillis();
-                lastMagn = event.values;
-                recordSensor(event, Sensor.TYPE_MAGNETIC_FIELD, event_time, nano_time);
-                // UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
-                break;
-            case Sensor.TYPE_ROTATION_VECTOR:
-                UtilsClass.logERROR("Received Not handled Rotation Vector Event");
-                lastRot = event.values;
-                newRot = true;
-                break;
-        }
-
-        if (newRot) {
-            newRot = false;
-            UtilsClass.logINFO("ROTA:   " + lastRot[0] + " ,  " + lastRot[1] + " ,  " + lastRot[2]);
-        }
-
-/*
-        //if(newAcc || newMagn){
-        newAcc = newMagn = false;
-        boolean gotRotation = false;
-        try {
-            gotRotation = SensorManager.getRotationMatrix(rotation, identity, lastAcc, lastMagn);
-        } catch (Exception e) {
-            gotRotation = false;
-            UtilsClass.logERROR("one of the two is null  (if it's once, it's ok)"+ e.getMessage());
-        }
-        if (gotRotation) {
-            //Orientation Vector
-            float orientation[] = new float[3];
-            SensorManager.getOrientation(rotation, orientation);
-            UtilsClass.logINFO("Orientation:   "+orientation[0]+" ,  "+orientation[1]+" ,  "+orientation[2]);
-        }
-        //}
-*/
-
-
+        new Thread(new HandleSensorData(event)).start();
     }
 
     @Override
