@@ -36,8 +36,6 @@
 
 
 ### Client
-* Display Orientation in Map
 * Display alternatives in video
 * ~~Calculate possible trajectories~~
-* Remove OUT_ prefix and .txt extension from playlist
 * Display available switches
