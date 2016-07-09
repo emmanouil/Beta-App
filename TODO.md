@@ -6,9 +6,21 @@
 * Synchronization Issues and coarse synch solutions/proposals
 
 ### Explore
+* GPS visualization
+ * Iterate
+ * Fix (align to street?)
+ * Project
+ * When zoom in display more keypoints
 * Drift between high-precision OS clock and GPS time
+  *  In length runs
 * Check network time (?)
 * Thread pool
+
+### Record
+* Long-run tests
+* Car, bike
+* Multi-device
+* Compass and Counter
 
 -----
 -----
