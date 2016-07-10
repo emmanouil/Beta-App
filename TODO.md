@@ -12,7 +12,7 @@
  * Project
  * When zoom in display more keypoints
 * Drift between high-precision OS clock and GPS time
-  *  In length runs
+  *  In lengthy runs
 * Check network time (?)
 * Thread pool
 
@@ -29,18 +29,18 @@
 ## Fixes
 
 ### General
-* Map video time with Location Points
+* Increase accuracy on video-time with Location Points map
 * Add Graph with possible Location Point Switch (?)
 
 ### App
 *  :zap: Fix camera bug (preview & record)
-*  :zap: When start recording, save latest received location
+*  :zap: When start recording, save latest received location (?)
 * Handle time recording
 * Consider adding multi-threading?
 * Add 'Type' field in Location records
 
 ### Server / Processor
-* Fix duration of first Sensor
+* ~~Fix duration of first Sensor~~
 * :zap: We assume every event is recorded in order (will **NOT** be the case if/when multi-threaded)
 * Handle different timing (e.g. when recording from mobile ACC is current time, MAG is uptime)
 * Decide on output format
