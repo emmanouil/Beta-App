@@ -4,6 +4,12 @@
 * All clocks
 * Timing possibilities
 * Synchronization Issues and coarse synch solutions/proposals
+* Data needed for analysis/visualization
+ * Number of Orientation samples per Location
+ * Orientation Diff per sample ( Orient2 - Orient1) *(currently recorded in set as Sensor Duration)*
+ * GPS Diff per sample ( Orient2 - Orient1) *(should be 1000)*
+ * Overall Drift (**Σ**OrientDiffs - **Σ**GPSDiffs) _(should be 1000 for **N → ∞** )_
+ * Average GPS accuracy (**Σ**GPSAccu/**N**)
 
 ### Explore
 * GPS visualization
