@@ -63,7 +63,10 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         // set preview size and make any resize, rotate or
         // reformatting changes here
-
+        Camera.Parameters parameters = mCamera.getParameters();
+        Camera.Size size = getBestPreviewSize(getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels);
+        parameters.setPreviewSize(size.width, size.height);
+        mCamera.setParameters(parameters);
 
         // start preview with new settings
         try {
@@ -73,6 +76,28 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         } catch (Exception e) {
             UtilsClass.logERROR("Error starting camera preview: " + e.getMessage());
         }
+    }
+
+    private Camera.Size getBestPreviewSize(int width, int height)
+    {
+        Camera.Size result=null;
+        Camera.Parameters p = mCamera.getParameters();
+        for (Camera.Size size : p.getSupportedPreviewSizes()) {
+            if (size.width<=width && size.height<=height) {
+                if (result==null) {
+                    result=size;
+                } else {
+                    int resultArea=result.width*result.height;
+                    int newArea=size.width*size.height;
+
+                    if (newArea>resultArea) {
+                        result=size;
+                    }
+                }
+            }
+        }
+        return result;
+
     }
 
     private void checkRotation(int width, int height){
