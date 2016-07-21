@@ -28,7 +28,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mHolder = getHolder();
         mHolder.addCallback(this);
         // deprecated setting, but required on Android versions prior to 3.0
-        // mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+        mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
@@ -63,7 +63,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         // set preview size and make any resize, rotate or
         // reformatting changes here
-       // checkRotation(mHolder, w, h);
+
 
         // start preview with new settings
         try {
@@ -83,7 +83,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }else{
             UtilsClass.logERROR("Check SDK version (min: Jelly Bean)");
         }
-
+/*
         //int height = parameters.getPictureSize().height;
         //int width = parameters.getPictureSize().width;
         if(display.getRotation() == Surface.ROTATION_0)
@@ -107,7 +107,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             parameters.setPreviewSize(width, height);
             mCamera.setDisplayOrientation(180);
         }
-
+*/
 
     }
 }

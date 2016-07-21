@@ -48,25 +48,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_layout);
 
-/*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (recording) {
-                    Snackbar.make(view, "Stopping recording", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
-                    stopRecording();
-                    //destroyCamera();  //we keep it for further recordings
-                    destroyMediaRecorder();
-                } else {
-                    startRecording();
-                    Snackbar.make(view, "Starting recording", Snackbar.LENGTH_SHORT).setAction("Action", null).show();
-                }
-            }
-        });
-*/
-        //CoordinatorLayout coord = (CoordinatorLayout) findViewById(R.id.coord);
-
         if (UtilsClass.getLogToFile())
             UtilsClass.logINFO("Logging to file: " + UtilsClass.getLogFile());
 
@@ -148,15 +129,16 @@ public class MainActivity extends AppCompatActivity {
             UtilsClass.logERROR("Couldn't open camera: " + e);
             return;
         }
-
+/*
         if (BuildConfig.DEBUG) {
             Camera.Parameters params = camera.getParameters();
             UtilsClass.logDEBUG(params.flatten());
             Camera.CameraInfo infoz = new Camera.CameraInfo();
             Camera.getCameraInfo(0, infoz);
         }
+        */
 
-        camera.setDisplayOrientation(90);
+//        camera.setDisplayOrientation(90);
         camPreview = new CameraPreview(this, camera);
         FrameLayout framePreview = (FrameLayout) findViewById(R.id.camera_preview);
         framePreview.addView(camPreview);
