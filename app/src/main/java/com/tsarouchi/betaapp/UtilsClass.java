@@ -19,7 +19,7 @@ import java.util.Calendar;
 
 /**
  * Created by Emmanouil on 17-Dec-15.
- *
+ * <p>
  * Holds helper functions
  */
 public class UtilsClass extends Application {
@@ -147,7 +147,7 @@ public class UtilsClass extends Application {
         boolean newfile = true;
         if (!UtilsClass.currLocFile.exists()) {
             try {
-                newfile =  UtilsClass.currLocFile.createNewFile();
+                newfile = UtilsClass.currLocFile.createNewFile();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 Log.e(TAG, "exception was thrown COULDN'T CREATE LOCATIONS FILE", e);
@@ -250,18 +250,19 @@ public class UtilsClass extends Application {
                 + "}";
         return new JSONObject(json);
     }
-/*
-    //TODO we put it in single-line for testing (format it after that)
-    public static String SensorDataToString(SensorEvent event) {
-        String sensorDataString = "{"
-                + " \"Sensor\" : \"" + event.sensor.getName() + "\", "
-                + " \"Values\" : " + event.values + ", "
-                + " \"Time (Local)\" : " + event.timestamp + ", "
-                + " \"Accuracy\" : " + event.accuracy
-                + "}";
-        return sensorDataString;
-    }
-*/
+
+    /*
+        //TODO we put it in single-line for testing (format it after that)
+        public static String SensorDataToString(SensorEvent event) {
+            String sensorDataString = "{"
+                    + " \"Sensor\" : \"" + event.sensor.getName() + "\", "
+                    + " \"Values\" : " + event.values + ", "
+                    + " \"Time (Local)\" : " + event.timestamp + ", "
+                    + " \"Accuracy\" : " + event.accuracy
+                    + "}";
+            return sensorDataString;
+        }
+    */
     /*
      * Check if writing to ext is possible
      */

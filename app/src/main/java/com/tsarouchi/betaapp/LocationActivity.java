@@ -6,16 +6,14 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
-import org.json.JSONException;
-
 /**
  * Created by Emmanouil on 13-Jun-16.
- *
+ * <p>
  * Location data handling
  */
 public class LocationActivity {
 
-//Startof Options
+    //Startof Options
     private static final coordLVL LOCATION_SERVICE = coordLVL.BOTH;
 //Endof Options
 
@@ -23,14 +21,13 @@ public class LocationActivity {
 
     private final static Location NORTH_POLE = new Location("manual");
 
-    static{
+    static {
         NORTH_POLE.setLatitude(90d);
         NORTH_POLE.setLongitude(0d);
         NORTH_POLE.setAltitude(0d);
     }
 
     private static long event_time = 0, nano_time = 0;
-
 
 
     public LocationActivity(Context context) {
@@ -89,12 +86,11 @@ public class LocationActivity {
 
     private void recordLocation(Location location, long event_time, long nano_time) {
         //UtilsClass.logINFO("Bearing: "+location.bearingTo(NORTH_POLE));
-            //TODO 1. Do we really need JSON convertion, since we re-stringify?
-            //TODO 2. Error-handling
-            //TODO 3. NOTE: time (timestamp) is in ms
-            UtilsClass.writeDataToFile(UtilsClass.locationToJSON(location, event_time, nano_time).toString());
+        //TODO 1. Do we really need JSON convertion, since we re-stringify?
+        //TODO 2. Error-handling
+        //TODO 3. NOTE: time (timestamp) is in ms
+        UtilsClass.writeDataToFile(UtilsClass.locationToJSON(location, event_time, nano_time).toString());
     }
-
 
 
 }

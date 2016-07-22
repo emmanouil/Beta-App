@@ -101,7 +101,6 @@ public class SensorActivitySingleThread implements SensorEventListener {
     }
 
 
-
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // UtilsClass.logINFO(sensor.getName() + "  CURR ACC:" + accuracy);
@@ -173,7 +172,6 @@ public class SensorActivitySingleThread implements SensorEventListener {
         orientation = tmpOrient.clone();
 //        UtilsClass.logINFO("Received Orientation - Yaw: " + orientation[0] + " , Pitch: " + orientation[1] + " , Roll: " + orientation[2]);
     }
-
 
 
 }

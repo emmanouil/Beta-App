@@ -4,7 +4,7 @@ import java.io.File;
 
 /**
  * Created by Emmanouil on 05-Apr-16.
- *
+ * <p>
  * Holds global options
  */
 public class Options {

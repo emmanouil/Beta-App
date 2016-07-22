@@ -111,8 +111,8 @@ public class MainActivity extends AppCompatActivity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         last_timestamp = timeStamp;
         File mediaFile;
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "VID_" + timeStamp + ".mp4");
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                "VID_" + timeStamp + ".mp4");
         UtilsClass.logINFO("Created file: " + mediaFile.toString());
 
         UtilsClass.createVideoLocationFile();

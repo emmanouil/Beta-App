@@ -2,12 +2,8 @@ package com.tsarouchi.betaapp;
 
 import android.content.Context;
 import android.hardware.Camera;
-import android.view.Display;
-import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-
-import com.tsarouchi.betaapp.UtilsClass;
 
 import java.io.IOException;
 
@@ -64,7 +60,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // set preview size and make any resize, rotate or
         // reformatting changes here
         Camera.Parameters parameters = mCamera.getParameters();
-        Camera.Size size = getBestPreviewSize(getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels);
+        Camera.Size size = getOptimalPreviewSize(getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels);
         parameters.setPreviewSize(size.width, size.height);
         mCamera.setParameters(parameters);
 
@@ -78,20 +74,19 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         }
     }
 
-    private Camera.Size getBestPreviewSize(int width, int height)
-    {
-        Camera.Size result=null;
+    private Camera.Size getOptimalPreviewSize(int width, int height) {
+        Camera.Size result = null;
         Camera.Parameters p = mCamera.getParameters();
         for (Camera.Size size : p.getSupportedPreviewSizes()) {
-            if (size.width<=width && size.height<=height) {
-                if (result==null) {
-                    result=size;
+            if (size.width <= width && size.height <= height) {
+                if (result == null) {
+                    result = size;
                 } else {
-                    int resultArea=result.width*result.height;
-                    int newArea=size.width*size.height;
+                    int resultArea = result.width * result.height;
+                    int newArea = size.width * size.height;
 
-                    if (newArea>resultArea) {
-                        result=size;
+                    if (newArea > resultArea) {
+                        result = size;
                     }
                 }
             }
@@ -100,40 +95,5 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     }
 
-    private void checkRotation(int width, int height){
-        Camera.Parameters parameters = mCamera.getParameters();
-        Display display = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            display = this.getDisplay();
-        }else{
-            UtilsClass.logERROR("Check SDK version (min: Jelly Bean)");
-        }
-/*
-        //int height = parameters.getPictureSize().height;
-        //int width = parameters.getPictureSize().width;
-        if(display.getRotation() == Surface.ROTATION_0)
-        {
-            parameters.setPreviewSize(height, width);
-            mCamera.setDisplayOrientation(90);
-        }
-
-        if(display.getRotation() == Surface.ROTATION_90)
-        {
-            parameters.setPreviewSize(width, height);
-        }
-
-        if(display.getRotation() == Surface.ROTATION_180)
-        {
-            parameters.setPreviewSize(height, width);
-        }
-
-        if(display.getRotation() == Surface.ROTATION_270)
-        {
-            parameters.setPreviewSize(width, height);
-            mCamera.setDisplayOrientation(180);
-        }
-*/
-
-    }
 }
 
