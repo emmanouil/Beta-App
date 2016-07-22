@@ -39,20 +39,19 @@
 * Add Graph with possible Location Point Switch (?)
 
 ### App
-*  :zap: Fix camera bug (preview & record)
+*  :zap: Check GPS signal during recording
 *  :zap: When start recording, save latest received location (?)
 * Handle time recording
+* Record Raw sensor data
 * Consider adding multi-threading?
 * Add 'Type' field in Location records
-* record camera/device characteristics
+* Record camera/device characteristics
 
 ### Server / Processor
 * ~~Fix duration of first Sensor~~
 * :zap: We assume every event is recorded in order (will **NOT** be the case if/when multi-threaded)
 * Handle different timing (e.g. when recording from mobile ACC is current time, MAG is uptime)
 * Decide on output format
-
-
 
 ### Client
 * Display alternatives in video
