@@ -79,6 +79,23 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void onWindowFocusChanged(boolean hasFocus){
+        View decorView = getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        //OR conteview extents behind status bar
+        //int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+        /* We do not use an actionbar for now
+        // Remember that you should never show the action bar if the
+        // status bar is hidden, so hide that too if necessary.
+        ActionBar actionBar = getActionBar();
+        if(actionBar != null) {
+            actionBar.hide();
+        }
+        */
+    }
+
     /**
      * Create a file Uri for saving an image or video
      */
