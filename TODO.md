@@ -1,5 +1,10 @@
 ## Open Problems
 
+* Check dataset (MMSys)
+* Check orientation rate fluctuation
+* Check altitude accuracy
+* Check barometer
+
 ### Document
 * All clocks
 * Timing possibilities
