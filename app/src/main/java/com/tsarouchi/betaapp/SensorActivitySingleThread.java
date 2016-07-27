@@ -8,6 +8,8 @@ import android.hardware.SensorManager;
 
 import org.json.JSONException;
 
+import java.util.List;
+
 /**
  * Created by Emmanouil on 30-Jun-16.
  */
@@ -32,6 +34,13 @@ public class SensorActivitySingleThread implements SensorEventListener {
 
     public SensorActivitySingleThread(Context context) {
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+
+        //listing available sensors
+        List<Sensor> mList = sensorManager.getSensorList(Sensor.TYPE_ALL);
+        for (int i = 1; i < mList.size(); i++) {
+            UtilsClass.logDEBUG(mList.get(i).getName());
+        }
+
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         rot = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
