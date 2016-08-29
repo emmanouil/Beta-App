@@ -18,7 +18,9 @@
 
 ### Explore
 * GPS visualization
- * Iterate
+ * Adjust according to zoom, speed, density or transportation mode
+  * Condence multiple neighbouring points (?)
+  * Iterate
  * Fix (align to street?)
  * Project
  * When zoom in/out display more/less key-points
