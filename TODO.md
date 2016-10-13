@@ -1,5 +1,10 @@
 ## Open Problems
 
+* Check dataset (MMSys)
+* Check orientation rate fluctuation
+* Check altitude accuracy
+* Check barometer
+
 ### Document
 * All clocks
 * Timing possibilities
@@ -13,7 +18,9 @@
 
 ### Explore
 * GPS visualization
- * Iterate
+ * Adjust according to zoom, speed, density or transportation mode
+    * Condence multiple neighbouring points (?)
+    * Iterate
  * Fix (align to street?)
  * Project
  * When zoom in/out display more/less key-points
