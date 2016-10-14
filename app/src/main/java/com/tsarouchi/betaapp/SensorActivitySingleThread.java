@@ -20,7 +20,6 @@ public class SensorActivitySingleThread implements SensorEventListener {
     private final Sensor magnetometer;
     private final Sensor accelerometer;
     private final Sensor rot;
-    //private final Sensor gyrometer;
     private float[] lastAcc;
     private float[] lastMagn;
     private float[] lastRot;
@@ -41,25 +40,30 @@ public class SensorActivitySingleThread implements SensorEventListener {
             UtilsClass.logDEBUG(mList.get(i).getName());
         }
 
+        rot = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        rot = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
-        //gyrometer = sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
         //TODO handle register and unregister listener
-        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_UI);
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
-        sensorManager.registerListener(this, rot, SensorManager.SENSOR_DELAY_UI);
+        if(rot!=null){
+            UtilsClass.logINFO("Using Rotation Vector composite sensor for device orientation");
+            sensorManager.registerListener(this, rot, SensorManager.SENSOR_DELAY_UI);
+        }else if(magnetometer!= null && accelerometer != null) {
+            UtilsClass.logINFO("Using Acceleration & Magnetic Field sensors for device orientation");
+            sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_UI);
+            sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        }else{
+            UtilsClass.logERROR("No usable sensors found for device orientation");
+        }
 //        time_diff = SystemClock.uptimeMillis();
 //        time_base = System.currentTimeMillis();
-        //sensorManager.registerListener(this, gyrometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     protected void onResume() {
         UtilsClass.logINFO("resumed");
         //super.onResume();
-        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_GAME);
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+/*        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_GAME);
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);*/
         sensorManager.registerListener(this, rot, SensorManager.SENSOR_DELAY_UI);
     }
 
@@ -73,6 +77,7 @@ public class SensorActivitySingleThread implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
 
         switch (event.sensor.getType()) {
+
             case Sensor.TYPE_ACCELEROMETER:
                 long nano_time = System.nanoTime();
                 long event_time = System.currentTimeMillis();
