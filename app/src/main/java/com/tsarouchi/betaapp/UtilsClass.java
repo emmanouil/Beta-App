@@ -48,8 +48,8 @@ public class UtilsClass extends Application {
         super.onCreate();
         Context context = getApplicationContext();
         UtilsClass.logToFile = isExternalStorageWritable();
-
-        sdCardDir = new File(ContextCompat.getExternalFilesDirs(context, null)[0].getAbsolutePath());
+//      sdCardDir = new File(ContextCompat.getExternalFilesDirs(context, null)[0].getAbsolutePath());
+        sdCardDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM), "MyCameraApp");
 
         if (UtilsClass.logToFile) {
             UtilsClass.logToFile = createLogFile();
