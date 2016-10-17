@@ -57,6 +57,25 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    //TODO implement onPause/Resume for logging as well
+    @Override
+    protected void onPause(){
+        super.onResume();
+        if(recording){
+            stopRecording();
+            //destroyCamera();  //we keep it for further recordings
+            destroyMediaRecorder();
+        }
+        sensorActivity.onPause();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        sensorActivity.onResume();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

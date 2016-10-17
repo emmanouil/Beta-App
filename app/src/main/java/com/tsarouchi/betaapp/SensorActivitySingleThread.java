@@ -32,6 +32,8 @@ public class SensorActivitySingleThread implements SensorEventListener {
 
 
     public SensorActivitySingleThread(Context context) {
+
+
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
 
         //listing available sensors
@@ -44,7 +46,13 @@ public class SensorActivitySingleThread implements SensorEventListener {
         magnetometer = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
-        //TODO handle register and unregister listener
+        registerListeners();
+
+//        time_diff = SystemClock.uptimeMillis();
+//        time_base = System.currentTimeMillis();
+    }
+
+    private void registerListeners(){
         if(rot!=null){
             UtilsClass.logINFO("Using Rotation Vector composite sensor for device orientation");
             sensorManager.registerListener(this, rot, SensorManager.SENSOR_DELAY_UI);
@@ -55,16 +63,12 @@ public class SensorActivitySingleThread implements SensorEventListener {
         }else{
             UtilsClass.logERROR("No usable sensors found for device orientation");
         }
-//        time_diff = SystemClock.uptimeMillis();
-//        time_base = System.currentTimeMillis();
     }
 
     protected void onResume() {
         UtilsClass.logINFO("resumed");
         //super.onResume();
-/*        sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_GAME);
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);*/
-        sensorManager.registerListener(this, rot, SensorManager.SENSOR_DELAY_UI);
+        registerListeners();
     }
 
     protected void onPause() {
