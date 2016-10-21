@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             destroyMediaRecorder();
         }
         sensorActivity.onPause();
+        UtilsClass.refreshFileList(getApplicationContext());
     }
 
     @Override
@@ -150,6 +151,7 @@ public class MainActivity extends AppCompatActivity {
         mediaFile = new File(mediaStorageDir.getPath() + File.separator +
                 "VID_" + timeStamp + ".mp4");
         UtilsClass.logINFO("Created file: " + mediaFile.toString());
+        UtilsClass.pushFileToList(mediaFile.toString());
 
         UtilsClass.createVideoLocationFile();
 

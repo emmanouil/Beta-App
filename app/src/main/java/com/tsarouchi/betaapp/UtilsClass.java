@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.hardware.SensorEvent;
 import android.location.Location;
+import android.media.MediaScannerConnection;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -15,7 +16,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by Emmanouil on 17-Dec-15.
@@ -37,9 +40,9 @@ public class UtilsClass extends Application {
     private static File defLocFile;    //default coordinates file
     private static File sdCardDir;
 
-    public enum LogLVL {ERROR, INFO, DEBUG}
+    public enum LogLVL {ERROR, INFO, DEBUG};
 
-    ;
+    private static List<String> mediaScannerList = new ArrayList<String>();
 
     /*
      * Initialize
@@ -64,6 +67,11 @@ public class UtilsClass extends Application {
 
     }
 
+    public static void stopLogging(){
+
+    }
+
+
     // Startof Getters
 /*
     public static Context getAppContext() {
@@ -76,6 +84,14 @@ public class UtilsClass extends Application {
 
     public static String getLogFile() {
         return logFile.getPath();
+    }
+
+    public static void pushFileToList(String filepath){
+        UtilsClass.mediaScannerList.add(filepath);
+    }
+
+    public static void refreshFileList(Context app_c){
+            MediaScannerConnection.scanFile(app_c, UtilsClass.mediaScannerList.toArray(new String[mediaScannerList.size()]), null, null);
     }
 
 //Endof Getters
@@ -162,6 +178,7 @@ public class UtilsClass extends Application {
             Log.e(TAG, "Locations File Not Created");
         } else {
             logINFO("Starting new Log - File " + locationFileName + " is used for location logging");
+            UtilsClass.pushFileToList(currLocFile.toString());
         }
     }
 
@@ -299,6 +316,7 @@ public class UtilsClass extends Application {
             return false;
         } else {
             logINFO("Starting new Log - File " + logFileName + " is used for logging");
+            UtilsClass.pushFileToList(logFile.toString());
         }
         return true;
 
