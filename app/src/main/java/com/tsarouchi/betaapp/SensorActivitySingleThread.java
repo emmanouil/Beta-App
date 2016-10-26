@@ -108,14 +108,9 @@ public class SensorActivitySingleThread implements SensorEventListener {
                 nano_time = System.nanoTime();
                 event_time = System.currentTimeMillis();
                 lastRot = event.values;
-                newRot = true;
                 recordSensor(event, Sensor.TYPE_ROTATION_VECTOR, event_time, nano_time);
+                recordOrientation(event.values, event_time); //Rotation vector gives orientation
                 break;
-        }
-
-        if (newRot) {
-            newRot = false;
-            UtilsClass.logINFO("ROTA:   " + lastRot[0] + " ,  " + lastRot[1] + " ,  " + lastRot[2]);
         }
 
     }
