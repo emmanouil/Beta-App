@@ -105,9 +105,11 @@ public class SensorActivitySingleThread implements SensorEventListener {
                 // UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
                 break;
             case Sensor.TYPE_ROTATION_VECTOR:
-                UtilsClass.logERROR("Received Not handled Rotation Vector Event");
+                nano_time = System.nanoTime();
+                event_time = System.currentTimeMillis();
                 lastRot = event.values;
                 newRot = true;
+                recordSensor(event, Sensor.TYPE_ROTATION_VECTOR, event_time, nano_time);
                 break;
         }
 

@@ -248,7 +248,18 @@ public class UtilsClass extends Application {
                     + " \"LocalNanostamp\" : " + nano_time + ", "
                     + " \"Accuracy\" : " + event.accuracy + "\n "
                     + "}";
-        } else {  //UNHANDLED
+        } else if (sensorType == 11) {    //ROTATION VECTOR (COMPOSITE)
+            json = "{\n"
+                    + " \"Type\" : \"ROTATION VECTOR\", "
+                    + " \"X\" : " + event.values[0] + ", "
+                    + " \"Y\" : " + event.values[1] + ", "
+                    + " \"Z\" : " + event.values[2] + ", "
+                    + " \"Time\" : " + event.timestamp + ", "
+                    + " \"LocalTimestamp\" : " + event_time + ", "
+                    + " \"LocalNanostamp\" : " + nano_time + ", "
+                    + " \"Accuracy\" : " + event.accuracy + "\n "
+                    + "}";
+        }else{  //UNHANDLED
             return new JSONObject("ERROR [Unknown sensor type in sensorToJSON");
         }
         //TODO prettify try-catch and handle return
