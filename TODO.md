@@ -46,12 +46,12 @@
 * Add Graph with possible Location Point Switch (?)
 
 ### App
+*  :zap: Check possible orientation difference in tablet / mobiles
 *  :zap: Check GPS signal during recording
 *  :zap: When start recording, save latest received location (?)
 * Handle time recording
 * Record Raw sensor data
 * Consider adding multi-threading?
-* Add 'Type' field in Location records
 * Record camera/device characteristics
 
 ### Server / Processor
