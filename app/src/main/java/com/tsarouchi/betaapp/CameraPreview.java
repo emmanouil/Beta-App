@@ -2,6 +2,7 @@ package com.tsarouchi.betaapp;
 
 import android.content.Context;
 import android.hardware.Camera;
+import android.os.Build;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -57,12 +58,17 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             // ignore: tried to stop a non-existent preview
         }
 
-        // set preview size and make any resize, rotate or
-        // reformatting changes here
+        //TODO record this for later visualization
         Camera.Parameters parameters = mCamera.getParameters();
-        Camera.Size size = getOptimalPreviewSize(getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels);
-        parameters.setPreviewSize(size.width, size.height);
-        mCamera.setParameters(parameters);
+
+        //TODO patched for nexus but should be fixed properly
+        if (!Build.MODEL.toString().contains("Nexus 5X")){
+            // set preview size and make any resize, rotate or
+            // reformatting changes here
+            Camera.Size size = getOptimalPreviewSize(getResources().getDisplayMetrics().widthPixels, getResources().getDisplayMetrics().heightPixels);
+            parameters.setPreviewSize(size.width, size.height);
+            mCamera.setParameters(parameters);
+        }
 
         // start preview with new settings
         try {
