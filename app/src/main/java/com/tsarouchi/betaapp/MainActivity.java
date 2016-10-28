@@ -4,6 +4,7 @@ import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
@@ -200,6 +201,9 @@ public class MainActivity extends AppCompatActivity {
         recording = true;
         mr = new MediaRecorder();
         camera.unlock();
+        if (Build.MODEL.toString().contains("Nexus 5X")) {
+            mr.setOrientationHint(180);
+        }
         mr.setCamera(camera);
         mr.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
         mr.setVideoSource(MediaRecorder.VideoSource.CAMERA);
