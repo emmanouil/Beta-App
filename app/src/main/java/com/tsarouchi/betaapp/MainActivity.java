@@ -52,7 +52,16 @@ public class MainActivity extends AppCompatActivity {
         if (UtilsClass.getLogToFile())
             UtilsClass.logINFO("Logging to file: " + UtilsClass.getLogFile());
 
+
+        if (null == savedInstanceState) {
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.container, Camera2VideoFragment.newInstance())
+                    .commit();
+        }
+
+/*
         initCamera();
+        */
         sensorActivity = new SensorActivitySingleThread(this.getBaseContext());
         locationActivity = new LocationActivity(this.getBaseContext());
 
