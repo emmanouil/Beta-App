@@ -1,6 +1,7 @@
 package com.tsarouchi.betaapp;
 
 import android.content.Context;
+import android.hardware.camera2.CameraManager;
 import android.hardware.Camera;
 import android.os.Build;
 import android.view.SurfaceHolder;
