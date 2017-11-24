@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_layout);
+        setContentView(R.layout.activity_camera);
 
         if (UtilsClass.getLogToFile())
             UtilsClass.logINFO("Logging to file: " + UtilsClass.getLogFile());
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     //TODO implement onPause/Resume for logging as well
     @Override
     protected void onPause(){
-        super.onResume();
+        super.onPause();
         if(recording){
             stopRecording();
             //destroyCamera();  //we keep it for further recordings
