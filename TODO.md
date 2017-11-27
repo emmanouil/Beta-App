@@ -1,3 +1,16 @@
+# v0.2 [Beta]
+
+## Overall
+* Remove parser requirement
+* Implement 
+
+## Specific
+* Record Signal Strength
+* Recording Dirs (e.g. camera in DCIM)
+
+
+
+# v0.1 [Old]
 ## Open Problems
 
 * Check dataset (MMSys)
