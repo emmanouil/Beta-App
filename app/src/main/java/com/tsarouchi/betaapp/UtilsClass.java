@@ -69,10 +69,6 @@ public class UtilsClass extends Application {
 
     }
 
-    public static void stopLogging() {
-
-    }
-
 
     // Startof Getters
 /*
@@ -155,8 +151,12 @@ public class UtilsClass extends Application {
         createLocationFile(MainActivity.last_timestamp + ".txt");
     }
 
+    protected static void createLocationFile() {
+        createLocationFile(locFileName);
+    }
+
     //Create File for coordinate logging
-    private static void createLocationFile(String locationFileName) {
+    protected static void createLocationFile(String locationFileName) {
         if (locationFileName == null || (locationFileName.length() < 1)) {
             logERROR("calling create file with no filename");
         }
