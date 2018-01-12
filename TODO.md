@@ -5,6 +5,7 @@
 * Implement 
 
 ## Specific
+* *High Priority*: Fix preview/recording aspect ratio (from 4:3 to 16:9) and maybe size
 * Record Signal Strength
 * Recording Dirs (e.g. camera in DCIM)
 

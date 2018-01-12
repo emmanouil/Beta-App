@@ -40,7 +40,9 @@ public class UtilsClass extends Application {
     private static File defLocFile;    //default coordinates file
     private static File sdCardDir;
 
-    public enum LogLVL {ERROR, INFO, DEBUG};
+    public enum LogLVL {ERROR, INFO, DEBUG}
+
+    ;
 
     private static List<String> mediaScannerList = new ArrayList<String>();
 
@@ -67,7 +69,7 @@ public class UtilsClass extends Application {
 
     }
 
-    public static void stopLogging(){
+    public static void stopLogging() {
 
     }
 
@@ -86,12 +88,12 @@ public class UtilsClass extends Application {
         return logFile.getPath();
     }
 
-    public static void pushFileToList(String filepath){
+    public static void pushFileToList(String filepath) {
         UtilsClass.mediaScannerList.add(filepath);
     }
 
-    public static void refreshFileList(Context app_c){
-            MediaScannerConnection.scanFile(app_c, UtilsClass.mediaScannerList.toArray(new String[mediaScannerList.size()]), null, null);
+    public static void refreshFileList(Context app_c) {
+        MediaScannerConnection.scanFile(app_c, UtilsClass.mediaScannerList.toArray(new String[mediaScannerList.size()]), null, null);
     }
 
 //Endof Getters
@@ -259,7 +261,7 @@ public class UtilsClass extends Application {
                     + " \"LocalNanostamp\" : " + nano_time + ", "
                     + " \"Accuracy\" : " + event.accuracy + "\n "
                     + "}";
-        }else{  //UNHANDLED
+        } else {  //UNHANDLED
             return new JSONObject("ERROR [Unknown sensor type in sensorToJSON");
         }
         //TODO prettify try-catch and handle return
