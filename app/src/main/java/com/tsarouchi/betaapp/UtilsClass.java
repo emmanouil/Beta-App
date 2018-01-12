@@ -42,7 +42,7 @@ public class UtilsClass extends Application {
 
     public enum LogLVL {ERROR, INFO, DEBUG}
 
-    ;
+    private static boolean isRecording = false;    //updated by Camera2VideoFragment
 
     private static List<String> mediaScannerList = new ArrayList<String>();
 
@@ -90,6 +90,14 @@ public class UtilsClass extends Application {
 
     public static void refreshFileList(Context app_c) {
         MediaScannerConnection.scanFile(app_c, UtilsClass.mediaScannerList.toArray(new String[mediaScannerList.size()]), null, null);
+    }
+
+    protected static void setRecordingStatus(boolean vl){
+        UtilsClass.isRecording = vl;
+    }
+
+    protected static boolean getRecordingStatus(){
+        return UtilsClass.isRecording;
     }
 
 //Endof Getters
@@ -188,7 +196,7 @@ public class UtilsClass extends Application {
     public static void writeDataToFile(String msg) {
         try {
             FileWriter fileWriter;
-            if (MainActivity.recording) {
+            if (MainActivity.recording || isRecording) {
                 fileWriter = new FileWriter(currLocFile, true);
             } else {
                 fileWriter = new FileWriter(defLocFile, true);

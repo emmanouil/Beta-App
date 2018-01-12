@@ -595,8 +595,14 @@ public class Camera2VideoFragment extends Fragment
         //final File dir = context.getExternalFilesDir(null);
         if (!dir.exists())
             dir.mkdirs();
+
+        /* used as filename for video and loc files */
+        String tmp_t = String.valueOf(System.currentTimeMillis());
+        /* Also creates file for recording locations. TODO: move this outside from here (e.g. in the record button actions, or at the startRecordingVideo (where switch back to normal locations recordings is located) */
+        UtilsClass.createLocationFile(tmp_t+".txt");
+        /* return full path of video file */
         return (dir == null ? "" : (dir.getAbsolutePath() + "/"))
-                + System.currentTimeMillis() + ".mp4";
+                + tmp_t + ".mp4";
     }
 
     private void startRecordingVideo() {
@@ -636,6 +642,7 @@ public class Camera2VideoFragment extends Fragment
                             // UI
                             mButtonVideo.setText(R.string.stop);
                             mIsRecordingVideo = true;
+                            UtilsClass.setRecordingStatus(true);
 
                             // Start recording
                             mMediaRecorder.start();
@@ -681,7 +688,10 @@ public class Camera2VideoFragment extends Fragment
 
         /* Update list of file - so video file will be visible when connection to PC */
         UtilsClass.pushFileToList(mNextVideoAbsolutePath.toString());
-        
+        /* revert back to recording locations in the default file */
+        UtilsClass.setRecordingStatus(false);
+        UtilsClass.createLocationFile();
+
         mNextVideoAbsolutePath = null;
         startPreview();
     }
