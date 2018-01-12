@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     SensorActivitySingleThread sensorActivity;
     LocationActivity locationActivity;
 
+    private Camera2VideoFragment c2VF;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +56,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         if (null == savedInstanceState) {
+            c2VF = Camera2VideoFragment.newInstance();
             getFragmentManager().beginTransaction()
-                    .replace(R.id.container, Camera2VideoFragment.newInstance())
+                    .replace(R.id.container, c2VF)
                     .commit();
         }
 
