@@ -678,6 +678,10 @@ public class Camera2VideoFragment extends Fragment
                     Toast.LENGTH_SHORT).show();
             Log.d(TAG, "Video saved: " + mNextVideoAbsolutePath);
         }
+
+        /* Update list of file - so video file will be visible when connection to PC */
+        UtilsClass.pushFileToList(mNextVideoAbsolutePath.toString());
+        
         mNextVideoAbsolutePath = null;
         startPreview();
     }
