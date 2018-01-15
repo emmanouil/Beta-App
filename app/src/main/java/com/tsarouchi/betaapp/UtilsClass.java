@@ -44,6 +44,8 @@ public class UtilsClass extends Application {
 
     private static boolean isRecording = false;    //updated by Camera2VideoFragment
 
+    private static long recStartTimems = 0;
+
     private static List<String> mediaScannerList = new ArrayList<String>();
 
     /*
@@ -98,6 +100,18 @@ public class UtilsClass extends Application {
 
     protected static boolean getRecordingStatus(){
         return UtilsClass.isRecording;
+    }
+
+    protected static void setRecStartTimems(long t){
+        UtilsClass.recStartTimems = t;
+    }
+
+    protected static void resetRecStartTimems(){
+        setRecStartTimems(0);
+    }
+
+    protected static long getRecStartTimems(){
+        return UtilsClass.recStartTimems;
     }
 
 //Endof Getters
