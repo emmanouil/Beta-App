@@ -90,7 +90,7 @@ public class SensorActivitySingleThread implements SensorEventListener {
                 recordSensor(event, Sensor.TYPE_ACCELEROMETER, event_time, nano_time);
                 if (!gotOrient) return;
                 calculateOrientation();
-                recordOrientation(orientation, event_time);
+                recordOrientation(orientation, event_time, false);
                 // UtilsClass.writeDataToFile(UtilsClass.SensorDataToString(event));
                 break;
             case Sensor.TYPE_GYROSCOPE:
@@ -108,8 +108,9 @@ public class SensorActivitySingleThread implements SensorEventListener {
                 nano_time = System.nanoTime();
                 event_time = System.currentTimeMillis();
                 lastRot = event.values;
-                recordSensor(event, Sensor.TYPE_ROTATION_VECTOR, event_time, nano_time);
-                recordOrientation(event.values, event_time); //Rotation vector gives orientation
+                //Not used
+                //recordSensor(event, Sensor.TYPE_ROTATION_VECTOR, event_time, nano_time);
+                recordOrientation(event.values, event_time, true); //Rotation vector gives orientation
                 break;
         }
 
@@ -121,6 +122,12 @@ public class SensorActivitySingleThread implements SensorEventListener {
         // UtilsClass.logINFO(sensor.getName() + "  CURR ACC:" + accuracy);
     }
 
+    //TODO
+    /*
+        NOTE: This records the orientation of the device as a combination of an angle and an axis
+        The three elements of the rotation vector are equal to the last three components of a unit quaternion <cos(θ/2), x*sin(θ/2), y*sin(θ/2), z*sin(θ/2)>
+        https://developer.android.com/reference/android/hardware/SensorEvent.html#values
+     */
     private void recordSensor(SensorEvent event, int sensorType, long event_time, long nano_time) {
         //UtilsClass.logINFO("Bearing: "+location.bearingTo(NORTH_POLE));
         try {
@@ -135,7 +142,22 @@ public class SensorActivitySingleThread implements SensorEventListener {
         //UtilsClass.writeDataToFile(location.toString());
     }
 
-    private void recordOrientation(float[] orientation, long event_time) {
+    /**
+     * Transforms the Rotation Vector to yaw, pitch, roll (in radians).
+     * Otherwise the ROTATION_VECTORS is in unit quaternions <cos(θ/2), x*sin(θ/2), y*sin(θ/2), z*sin(θ/2)
+     *  and represents the orientation of the device as a combination of an angle and an axis, in which the device has rotated through an angle θ around an axis <x, y, z>).
+     *  https://developer.android.com/reference/android/hardware/SensorEvent.html#values
+     * @param orientation as received by ROTATION_VECTOR
+     * @param event_time of receiving the sensor event
+     */
+    private void recordOrientation(float[] orientation, long event_time, boolean in_quaternions) {
+        float mRotationMatrix[] = new float[9];
+        if(in_quaternions){
+            SensorManager.getRotationMatrixFromVector(mRotationMatrix, orientation);
+            SensorManager.remapCoordinateSystem(mRotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, mRotationMatrix);
+            SensorManager.getOrientation(mRotationMatrix, orientation);
+        }
+
         try {
             UtilsClass.writeDataToFile(UtilsClass.orientationToJSON(orientation, event_time).toString());
         } catch (JSONException e) {
