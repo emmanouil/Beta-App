@@ -52,15 +52,15 @@ public class SensorActivitySingleThread implements SensorEventListener {
 //        time_base = System.currentTimeMillis();
     }
 
-    private void registerListeners(){
-        if(rot!=null){
+    private void registerListeners() {
+        if (rot != null) {
             UtilsClass.logINFO("Using Rotation Vector composite sensor for device orientation");
             sensorManager.registerListener(this, rot, SensorManager.SENSOR_DELAY_UI);
-        }else if(magnetometer!= null && accelerometer != null) {
+        } else if (magnetometer != null && accelerometer != null) {
             UtilsClass.logINFO("Using Acceleration & Magnetic Field sensors for device orientation");
             sensorManager.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_UI);
             sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
-        }else{
+        } else {
             UtilsClass.logERROR("No usable sensors found for device orientation");
         }
     }
@@ -145,21 +145,24 @@ public class SensorActivitySingleThread implements SensorEventListener {
     /**
      * Transforms the Rotation Vector to yaw, pitch, roll (in radians).
      * Otherwise the ROTATION_VECTORS is in unit quaternions <cos(θ/2), x*sin(θ/2), y*sin(θ/2), z*sin(θ/2)
-     *  and represents the orientation of the device as a combination of an angle and an axis, in which the device has rotated through an angle θ around an axis <x, y, z>).
-     *  https://developer.android.com/reference/android/hardware/SensorEvent.html#values
+     * and represents the orientation of the device as a combination of an angle and an axis, in which the device has rotated through an angle θ around an axis <x, y, z>).
+     * https://developer.android.com/reference/android/hardware/SensorEvent.html#values
+     *
      * @param orientation as received by ROTATION_VECTOR
-     * @param event_time of receiving the sensor event
+     * @param event_time  of receiving the sensor event
      */
     private void recordOrientation(float[] orientation, long event_time, boolean in_quaternions) {
         float mRotationMatrix[] = new float[9];
-        if(in_quaternions){
+        float tMatrix[] = new float[9];
+        float res[] = new float[3];
+        if (in_quaternions) {
             SensorManager.getRotationMatrixFromVector(mRotationMatrix, orientation);
-            SensorManager.remapCoordinateSystem(mRotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, mRotationMatrix);
-            SensorManager.getOrientation(mRotationMatrix, orientation);
+            SensorManager.remapCoordinateSystem(mRotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, tMatrix);
+            SensorManager.getOrientation(tMatrix, res);
         }
 
         try {
-            UtilsClass.writeDataToFile(UtilsClass.orientationToJSON(orientation, event_time).toString());
+            UtilsClass.writeDataToFile(UtilsClass.orientationToJSON(res, event_time).toString());
         } catch (JSONException e) {
             e.printStackTrace();
             UtilsClass.logDEBUG("ERROR @ JSON lvl2");
