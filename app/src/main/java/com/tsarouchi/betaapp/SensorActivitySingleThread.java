@@ -20,6 +20,7 @@ public class SensorActivitySingleThread implements SensorEventListener {
     private final Sensor magnetometer;
     private final Sensor accelerometer;
     private final Sensor rot;
+    private final boolean FORCE_SENSOR_FUSION = true;
     private float[] lastAcc;
     private float[] lastMagn;
     private float[] lastRot;
@@ -53,7 +54,7 @@ public class SensorActivitySingleThread implements SensorEventListener {
     }
 
     private void registerListeners() {
-        if (rot != null) {
+        if (!FORCE_SENSOR_FUSION && rot != null) {
             UtilsClass.logINFO("Using Rotation Vector composite sensor for device orientation");
             sensorManager.registerListener(this, rot, SensorManager.SENSOR_DELAY_UI);
         } else if (magnetometer != null && accelerometer != null) {
@@ -159,6 +160,8 @@ public class SensorActivitySingleThread implements SensorEventListener {
             SensorManager.getRotationMatrixFromVector(mRotationMatrix, orientation);
             SensorManager.remapCoordinateSystem(mRotationMatrix, SensorManager.AXIS_X, SensorManager.AXIS_Z, tMatrix);
             SensorManager.getOrientation(tMatrix, res);
+        } else {
+            res = orientation.clone();
         }
 
         try {
