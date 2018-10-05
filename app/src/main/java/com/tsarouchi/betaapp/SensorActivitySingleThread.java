@@ -143,6 +143,11 @@ public class SensorActivitySingleThread implements SensorEventListener {
         //UtilsClass.writeDataToFile(location.toString());
     }
 
+
+    //TODO confirm matrices not null
+    private final float mRotationMatrix[] = new float[9];
+    private final float tMatrix[] = new float[9];
+    private long rTime = 0;
     /**
      * Transforms the Rotation Vector to yaw, pitch, roll (in radians).
      * Otherwise the ROTATION_VECTORS is in unit quaternions <cos(θ/2), x*sin(θ/2), y*sin(θ/2), z*sin(θ/2)
@@ -153,8 +158,6 @@ public class SensorActivitySingleThread implements SensorEventListener {
      * @param event_time  of receiving the sensor event
      */
     private void recordOrientation(float[] orientation, long event_time, boolean in_quaternions) {
-        float mRotationMatrix[] = new float[9];
-        float tMatrix[] = new float[9];
         float res[] = new float[3];
         if (in_quaternions) {
             SensorManager.getRotationMatrixFromVector(mRotationMatrix, orientation);
