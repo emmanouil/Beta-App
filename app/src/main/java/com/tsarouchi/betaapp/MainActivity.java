@@ -172,29 +172,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void initCamera() {
-        try {
-            //this is for the back-facing camera
-            camera = Camera.open();
-        } catch (Exception e) {
-            UtilsClass.logERROR("Couldn't open camera: " + e);
-            return;
-        }
-/*
-        if (BuildConfig.DEBUG) {
-            Camera.Parameters params = camera.getParameters();
-            UtilsClass.logDEBUG(params.flatten());
-            Camera.CameraInfo infoz = new Camera.CameraInfo();
-            Camera.getCameraInfo(0, infoz);
-        }
-        */
-
-//        camera.setDisplayOrientation(90);
-        camPreview = new CameraPreview(this, camera);
-        FrameLayout framePreview = (FrameLayout) findViewById(R.id.camera_preview);
-        framePreview.addView(camPreview);
-    }
-
     private void destroyCamera() {
         //if (recording) destroyMediaRecorder();
         camera.stopPreview();
