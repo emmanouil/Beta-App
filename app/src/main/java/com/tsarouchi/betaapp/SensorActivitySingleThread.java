@@ -168,6 +168,11 @@ public class SensorActivitySingleThread implements SensorEventListener {
         }
 
         try {
+            if(rTime < (int) event_time){
+                rTime = (int) event_time + 1000;
+                UtilsClass.logToScreen(UtilsClass.orientationToJSONdeg(res, event_time).toString());
+                UtilsClass.logINFO(UtilsClass.orientationToJSONdeg(res, event_time).toString());
+            }
             UtilsClass.writeDataToFile(UtilsClass.orientationToJSON(res, event_time).toString());
         } catch (JSONException e) {
             e.printStackTrace();

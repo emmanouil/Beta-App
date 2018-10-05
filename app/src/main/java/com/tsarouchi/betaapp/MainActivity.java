@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private MediaRecorder mr;
     public static boolean recording = false;
     public static String last_timestamp;
+    public static TextView msg_field_view;
     SensorActivitySingleThread sensorActivity;
     LocationActivity locationActivity;
 
@@ -49,10 +51,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.fragment_camera2_video);
+        msg_field_view = (TextView) findViewById(R.id.msg_field);
+
         setContentView(R.layout.activity_camera);
 
         if (UtilsClass.getLogToFile())
             UtilsClass.logINFO("Logging to file: " + UtilsClass.getLogFile());
+
 
 
         if (null == savedInstanceState) {

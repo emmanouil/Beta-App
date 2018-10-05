@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.tsarouchi.betaapp.MainActivity.msg_field_view;
+
 /**
  * Created by Emmanouil on 17-Dec-15.
  * <p>
@@ -127,6 +129,14 @@ public class UtilsClass extends Application {
 
     public static void logINFO(String msg) {
         log(msg, LogLVL.INFO);
+    }
+
+    public static void logToScreen(String msg){
+        try {
+            msg_field_view.setText(msg);
+        }catch (Exception e){
+            logERROR(e.getMessage());
+        }
     }
 
     private static void log(String msg, LogLVL lvl) {
@@ -303,6 +313,18 @@ public class UtilsClass extends Application {
                 + " \"X\" : " + orientation[0] + ", "
                 + " \"Y\" : " + orientation[1] + ", "
                 + " \"Z\" : " + orientation[2] + ", "
+                + " \"LocalTimestamp\" : " + event_time + "\n"
+                + "}";
+        return new JSONObject(json);
+    }
+
+    public static JSONObject orientationToJSONdeg(float[] orientation, long event_time) throws JSONException {
+        String json;
+        json = "{\n"
+                + " \"Type\" : \"ORIENTATION\", "
+                + " \"X\" : " + Math.toDegrees(orientation[0]) + ", "
+                + " \"Y\" : " + Math.toDegrees(orientation[1]) + ", "
+                + " \"Z\" : " + Math.toDegrees(orientation[2]) + ", "
                 + " \"LocalTimestamp\" : " + event_time + "\n"
                 + "}";
         return new JSONObject(json);
