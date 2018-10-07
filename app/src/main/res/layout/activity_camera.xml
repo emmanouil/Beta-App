@@ -1,7 +1,24 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#00FF00"
-    tools:context="com.tsarouchi.betaapp.MainActivity" />
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#00FF00"
+        tools:context="com.tsarouchi.betaapp.MainActivity" />
+
+    <TextView
+        android:id="@+id/msg_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="200dp"
+        android:rotation="90"
+        android:text="Messages Will Apear Here"
+        android:textColor="#FF0000" />
+
+</FrameLayout>

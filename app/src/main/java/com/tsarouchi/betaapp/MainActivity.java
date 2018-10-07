@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import java.io.File;
@@ -52,14 +51,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.fragment_camera2_video);
-        msg_field_view = (TextView) findViewById(R.id.msg_field);
-
         setContentView(R.layout.activity_camera);
-
+        msg_field_view = (TextView) findViewById(R.id.msg_field);
         if (UtilsClass.getLogToFile())
             UtilsClass.logINFO("Logging to file: " + UtilsClass.getLogFile());
-
 
 
         if (null == savedInstanceState) {
@@ -80,9 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
     //TODO implement onPause/Resume for logging as well
     @Override
-    protected void onPause(){
+    protected void onPause() {
         super.onPause();
-        if(recording){
+        if (recording) {
             stopRecording();
             //destroyCamera();  //we keep it for further recordings
             destroyMediaRecorder();
@@ -92,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         sensorActivity.onResume();
     }
@@ -119,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onWindowFocusChanged(boolean hasFocus){
+    public void onWindowFocusChanged(boolean hasFocus) {
         View decorView = getWindow().getDecorView();
         // Hide the status bar.
         int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;

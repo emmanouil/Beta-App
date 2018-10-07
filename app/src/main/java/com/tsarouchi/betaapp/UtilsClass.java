@@ -132,6 +132,7 @@ public class UtilsClass extends Application {
     }
 
     public static void logToScreen(String msg){
+
         try {
             msg_field_view.setText(msg);
         }catch (Exception e){
