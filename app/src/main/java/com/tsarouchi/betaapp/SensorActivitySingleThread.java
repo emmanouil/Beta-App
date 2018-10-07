@@ -21,6 +21,7 @@ public class SensorActivitySingleThread implements SensorEventListener {
     private final Sensor accelerometer;
     private final Sensor rot;
     private final boolean FORCE_SENSOR_FUSION = false;
+    private final boolean LOG_TO_SCREEN = false;
     private float[] lastAcc;
     private float[] lastMagn;
     private float[] lastRot;
@@ -169,10 +170,12 @@ public class SensorActivitySingleThread implements SensorEventListener {
         }
 
         try {
-            if (rTime < (int) event_time) {
-                rTime = (int) event_time + 1000;
-                UtilsClass.logToScreen("X: " + String.format("%.2f", Math.toDegrees(res[0])) + "  Y: " + String.format("%.2f", Math.toDegrees(res[1])) + "  Z: " + String.format("%.2f", Math.toDegrees(res[2])));
-                UtilsClass.logINFO(UtilsClass.orientationToJSONdeg(res, event_time).toString());
+            if (LOG_TO_SCREEN) {
+                if (rTime < (int) event_time) {
+                    rTime = (int) event_time + 1000;
+                    UtilsClass.logToScreen("X: " + String.format("%.2f", Math.toDegrees(res[0])) + "  Y: " + String.format("%.2f", Math.toDegrees(res[1])) + "  Z: " + String.format("%.2f", Math.toDegrees(res[2])));
+                    UtilsClass.logINFO(UtilsClass.orientationToJSONdeg(res, event_time).toString());
+                }
             }
             UtilsClass.writeDataToFile(UtilsClass.orientationToJSON(res, event_time).toString());
         } catch (JSONException e) {
