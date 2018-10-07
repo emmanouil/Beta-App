@@ -26,14 +26,12 @@
             android:text="@string/record" />
 
         <Button
-            android:id="@+id/blur"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:text="Blur" />
 
         <Button
-            android:id="@+id/shake"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|left"

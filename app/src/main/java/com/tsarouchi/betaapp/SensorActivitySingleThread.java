@@ -20,7 +20,7 @@ public class SensorActivitySingleThread implements SensorEventListener {
     private final Sensor magnetometer;
     private final Sensor accelerometer;
     private final Sensor rot;
-    private final boolean FORCE_SENSOR_FUSION = true;
+    private final boolean FORCE_SENSOR_FUSION = false;
     private float[] lastAcc;
     private float[] lastMagn;
     private float[] lastRot;
@@ -148,6 +148,7 @@ public class SensorActivitySingleThread implements SensorEventListener {
     private final float mRotationMatrix[] = new float[9];
     private final float tMatrix[] = new float[9];
     private long rTime = 0;
+
     /**
      * Transforms the Rotation Vector to yaw, pitch, roll (in radians).
      * Otherwise the ROTATION_VECTORS is in unit quaternions <cos(θ/2), x*sin(θ/2), y*sin(θ/2), z*sin(θ/2)
@@ -168,9 +169,9 @@ public class SensorActivitySingleThread implements SensorEventListener {
         }
 
         try {
-            if(rTime < (int) event_time){
+            if (rTime < (int) event_time) {
                 rTime = (int) event_time + 1000;
-                UtilsClass.logToScreen(UtilsClass.orientationToJSONdeg(res, event_time).toString());
+                UtilsClass.logToScreen("X: " + String.format("%.2f", Math.toDegrees(res[0])) + "  Y: " + String.format("%.2f", Math.toDegrees(res[1])) + "  Z: " + String.format("%.2f", Math.toDegrees(res[2])));
                 UtilsClass.logINFO(UtilsClass.orientationToJSONdeg(res, event_time).toString());
             }
             UtilsClass.writeDataToFile(UtilsClass.orientationToJSON(res, event_time).toString());
