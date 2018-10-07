@@ -9,4 +9,13 @@
         
         ]]>
     </string>
+    <string name="placeholder">
+        <![CDATA[
+
+
+            This is a placeholder button.
+
+
+        ]]>
+    </string>
 </resources>

@@ -269,6 +269,8 @@ public class Camera2VideoFragment extends Fragment
         mButtonVideo = (Button) view.findViewById(R.id.video);
         mButtonVideo.setOnClickListener(this);
         view.findViewById(R.id.info).setOnClickListener(this);
+        view.findViewById(R.id.tilt_btn).setOnClickListener(this);
+        view.findViewById(R.id.shake_btn).setOnClickListener(this);
     }
 
     @Override
@@ -297,6 +299,18 @@ public class Camera2VideoFragment extends Fragment
                     stopRecordingVideo();
                 } else {
                     startRecordingVideo();
+                }
+                break;
+            }
+            case R.id.tilt_btn:
+            case R.id.shake_btn:
+                {
+                Activity activity = getActivity();
+                if (null != activity) {
+                    new AlertDialog.Builder(activity)
+                            .setMessage(R.string.placeholder)
+                            .setPositiveButton(android.R.string.ok, null)
+                            .show();
                 }
                 break;
             }

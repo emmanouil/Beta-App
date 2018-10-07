@@ -26,12 +26,14 @@
             android:text="@string/record" />
 
         <Button
+            android:id="@+id/tilt_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:text="Blur" />
+            android:text="Tilt" />
 
         <Button
+            android:id="@+id/shake_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|left"
@@ -43,7 +45,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|right"
-            android:contentDescription="@string/description_info"
             android:padding="20dp"
             android:src="@drawable/ic_action_info" />
 
